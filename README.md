@@ -12,7 +12,7 @@ nextflow run researchqut.ontvisc \
             --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt
 ```
 
-##Exampple of amplicon data derived using 5' and 3' RACE 
+## Example of amplicon data derived using 5' and 3' RACE 
 **Sample MT483*** 5'and 3' RACE are ~5000 bp amplicon products which were sequenced using a ligation method to amplify a novel genome identified using sRNASeq. The genome size is predicted to be ~7000 bp For this example, we want to run porechop_abi so it detects and removed the 5' and 3' RACE adapters so we select --adapter_trimming
 
 ```

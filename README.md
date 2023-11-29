@@ -65,10 +65,10 @@ nextflow run maelyg/ontvisc -resume \
                                                 --host_fasta ~/code/micropipe/test_data/Plant_host_sequences11_ed.fasta
 ```
 
-## Example of dengue virus sample seqeunced at very high depth
-Amplicon approach, amplicon size expected to be ~10,000 bp. Raw data available in folder /work/eresearch_bio/test_datasets/ET300 on Lyra.
+## Example of dengue virus sample sequenced at very high depth
+This was sequence usin an amplicon approach. The amplicon size expected to be ~10,000 bp. Raw data available in folder /work/eresearch_bio/test_datasets/ET300 on Lyra.
 
-The strategy here is to only retain high quality data (we can be picky here as it was sequenced at high depth, hence the parameter -q 18). After checking the QC profile, we can see that by performing harsh quality filtering step, we still retain a decent amount of reads. Chopper retains 14,921 reads using the parameters listed below.
+The strategy here is to only retain high quality data. We can be picky here as it was sequenced at very high depth. After checking the QC profile, we can see that by performing harsh quality filtering step, we still retain a decent amount of reads. Chopper retains 14,921 reads using the options '-q 18 -l 9500 --maxlength 11000'.
 ```
 nextflow run ~/code/github/main/ontvisc/main.nf -resume \
                                                 -profile singularity \

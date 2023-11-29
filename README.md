@@ -13,7 +13,9 @@ nextflow run researchqut.ontvisc \
 ```
 
 ## Example of amplicon data derived using 5' and 3' RACE 
-**Sample MT483** 5'and 3' RACE sequencing reactions are ~5000 bp amplicon products which were sequenced using a ligation method to amplify a novel genome identified using sRNASeq. The genome size is predicted to be ~7000 bp For this example, we want to run porechop_abi so it detects and removed the 5' and 3' RACE adapters so we select --adapter_trimming. The --final_primer_check option will perform a last check of race primers after the assembly step.
+**Sample MT483** 5'and 3' RACE sequencing reactions are ~5000 bp amplicon products which were sequenced using a ligation method to amplify a novel genome identified using sRNASeq. The genome size is predicted to be ~7000 bp.  
+For this example, we want to run porechop_abi so it detects and removed the 5' and 3' RACE adapters so we select --adapter_trimming. 
+Using the --final_primer_check option, a final primer check will be performed after the de novo assembly step to check for the presence of any residual universal RACE primers at the end of the assembled contigs.
 
 ```
 nextflow run researchqut.ontvisc \

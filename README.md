@@ -35,3 +35,22 @@ nextflow run maelyg/ontvisc -resume -profile {singularity, docker} \
                             --analysis_mode map2ref \
                             --reference /work/eresearch_bio/test_datasets/MT483_amplicon_RACE_new_chemistry_ligation/AobVX.fasta
 ```
+
+## Example of direct RNA sequencing
+
+The SRR17660991 sample is from a Nicotiana tabaccum specimen infected with tomato spotted wilt orthotospovirus. This sample is part of a study that was published in 2022 in Frontiers in Microbiology ([*https://www.ncbi.nlm.nih.gov/pmc/articles/PMC913109](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9131090/). The raw data (inc fastq files) are available at https://www.ncbi.nlm.nih.gov/sra/?term=SRR17660991. Total RNA was DNAse treated and polyA tailing was applied for further library preparation using Oxford Nanopore Technologies kit DirectRNA (SQK-RNA002) for sequencing
+
+For this sample, you can use a de novo approach or a clustering approach.
+
+
+```
+nextflow run ~/code/github/main/ontvisc/main.nf -resume \
+                                                -profile singularity \
+                                                --analysis_mode clustering \
+                                                --host_filtering \
+                                                --qual_filt --chopper_options '-q 10' \
+                                                --blast_threads 8 --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt \
+                                                --rattle_clustering_options '--rna --lower-length 1000 --upper-length 150000' \
+                                                --rattle_polishing_options '--rna' \
+                                                --host_fasta ~/code/micropipe/test_data/Plant_host_sequences11_ed.fasta
+```

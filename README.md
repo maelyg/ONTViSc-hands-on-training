@@ -1,7 +1,7 @@
 # ONTViSc-hands-on-training
 ## Example of short amplicon product
 
-**Sample ONT009** is a short amplicon for Rubus yellow net virus (~100 bp) which failed Sanger sequencing. It was derived using degenerate primers.  
+**Sample ONT009** is a rubus sample which is infected with Rubus yellow net virus. A short amplicon was derived using degenerate primers which enable to separate endogenous versus exogenous RYNV. The product is ~100 bp and fails Sanger sequencing. 
 
 | Primer Name | Primer type | Primer sequence (5’-3’) |
 | --- | --- | --- |
@@ -9,7 +9,7 @@
 | RdRp-R | Reverse | 5’-NCKCCANCCRCARAANARNGG-3’ |
 
 
-In this scenario, we recommend using the clustering approach.We recommend using the --adapter_trimming option to make sure no residual adpaters are present at the start and end of the sequences.
+In this scenario, because the amplicon is very short, we recommend using the clustering approach. We recommend using the --adapter_trimming option to make sure no residual adapters are present at the start and end of the sequences.
 
 ```
 nextflow run researchqut.ontvisc \
@@ -24,7 +24,7 @@ nextflow run researchqut.ontvisc \
 
 ## Example of amplicon data derived using 5' and 3' RACE 
 **Sample MT483** 5'and 3' RACE sequencing reactions are ~5000 bp amplicon products which were sequenced using a ligation method to amplify a novel genome identified using sRNASeq. The genome size is predicted to be ~7000 bp.  
-For this example, we want to run porechop_abi so it detects and removed the 5' and 3' RACE adapters so we select --adapter_trimming. 
+For this example, we want to run porechop_abi so it detects and remove the 5' and 3' RACE adapters so we select --adapter_trimming. 
 Using the --final_primer_check option, a final primer check will be performed after the de novo assembly step to check for the presence of any residual universal RACE primers at the end of the assembled contigs.
 
 ```
@@ -55,14 +55,14 @@ For this sample, you can use a de novo approach or a clustering approach.
 
 ```
 nextflow run maelyg/ontvisc -resume \
-                                                -profile singularity \
-                                                --analysis_mode clustering \
-                                                --host_filtering \
-                                                --qual_filt --chopper_options '-q 10' \
-                                                --blast_threads 8 --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt \
-                                                --rattle_clustering_options '--rna --lower-length 1000 --upper-length 150000' \
-                                                --rattle_polishing_options '--rna' \
-                                                --host_fasta ~/code/micropipe/test_data/Plant_host_sequences11_ed.fasta
+                        -profile singularity \
+                        --analysis_mode clustering \
+                        --host_filtering \
+                        --qual_filt --chopper_options '-q 10' \
+                        --blast_threads 8 --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt \
+                        --rattle_clustering_options '--rna --lower-length 1000 --upper-length 150000' \
+                        --rattle_polishing_options '--rna' \
+                        --host_fasta ~/code/micropipe/test_data/Plant_host_sequences11_ed.fasta
 ```
 
 ## Example of dengue virus sample sequenced at very high depth

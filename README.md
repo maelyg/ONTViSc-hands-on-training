@@ -64,3 +64,16 @@ nextflow run maelyg/ontvisc -resume \
                                                 --rattle_polishing_options '--rna' \
                                                 --host_fasta ~/code/micropipe/test_data/Plant_host_sequences11_ed.fasta
 ```
+
+## Example of dengue virus sample seqeunced at very high depth
+Amplicon approach, amplicon size expected to be ~10,000 bp. Raw data available in folder /work/eresearch_bio/test_datasets/ET300 on Lyra.
+
+The strategy here is to only retain high quality data (we can be picky here as it was sequenced at high depth, hence the parameter -q 18). After checking the QC profile, we can see that by performing harsh quality filtering step, we still retain a decent amount of reads. Chopper retains 14,921 reads using the parameters listed below.
+```
+nextflow run ~/code/github/main/ontvisc/main.nf -resume \
+                                                -profile singularity \
+                                                --qual_filt \
+                                                --chopper_options '-q 18 -l 9500 --maxlength 11000' \
+                                                --blast_threads 8 --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt \
+                                                --clustering  --rattle_clustering_options '--lower-length 9000 --upper-length 11000'
+```

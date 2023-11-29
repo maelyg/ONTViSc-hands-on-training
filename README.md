@@ -1,7 +1,13 @@
 # ONTViSc-hands-on-training
 ## Example of short amplicon product
 
-**Sample ONT009** is a short amplicon for Rubus yellow net virus (~100 bp) which failed Sanger sequencing. We recommend using the clustering approach
+**Sample ONT009** is a short amplicon for Rubus yellow net virus (~100 bp) which failed Sanger sequencing. It was derived using degenerate primers.
+| Primer Name | Primer type | Primer sequence (5’-3’) |
+| RdRp-F | Forward | 5’-GGNGARTTYGGNACNTTYTTYTTY-3’ |
+| RdRp-R | Reverse | 5’-NCKCCANCCRCARAANARNGG-3’ |
+
+
+We recommend using the clustering approach
 ```
 nextflow run researchqut.ontvisc \
             -resume \

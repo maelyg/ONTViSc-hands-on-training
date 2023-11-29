@@ -13,19 +13,21 @@ nextflow run researchqut.ontvisc \
 ```
 
 ## Example of amplicon data derived using 5' and 3' RACE 
-**Sample MT483*** 5'and 3' RACE are ~5000 bp amplicon products which were sequenced using a ligation method to amplify a novel genome identified using sRNASeq. The genome size is predicted to be ~7000 bp For this example, we want to run porechop_abi so it detects and removed the 5' and 3' RACE adapters so we select --adapter_trimming
+**Sample MT483** 5'and 3' RACE sequencing reactions are ~5000 bp amplicon products which were sequenced using a ligation method to amplify a novel genome identified using sRNASeq. The genome size is predicted to be ~7000 bp For this example, we want to run porechop_abi so it detects and removed the 5' and 3' RACE adapters so we select --adapter_trimming. The --final_primer_check option will perform a last check of race primers after the assembly step.
 
 ```
 nextflow run researchqut.ontvisc \
              -resume
-             --denovo_assembly \
-             --final_primer_check \
+             -profile singularity
+             --adapter_trimming \
+             --analysis_mode denovo_assembly \
              --canu \
              --canu_options 'useGrid=false' \
              --canu_genome_size 0.01m \
+             --final_primer_check \
              --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt
 ```
-Reads can also be directly mapped to the reference:
+Reads can also be directly mapped to the predicted amplicon sequence if it is known:
 ```
 nextflow run maelyg/ontvisc -resume -profile {singularity, docker} \
                             --analysis_mode map2ref \

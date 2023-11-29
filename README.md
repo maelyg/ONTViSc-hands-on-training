@@ -19,8 +19,8 @@ Using the --final_primer_check option, a final primer check will be performed af
 
 ```
 nextflow run researchqut.ontvisc \
-             -resume
-             -profile singularity
+             -resume \
+             -profile singularity \
              --adapter_trimming \
              --analysis_mode denovo_assembly \
              --canu \
@@ -44,7 +44,7 @@ For this sample, you can use a de novo approach or a clustering approach.
 
 
 ```
-nextflow run ~/code/github/main/ontvisc/main.nf -resume \
+nextflow run maelyg/ontvisc -resume \
                                                 -profile singularity \
                                                 --analysis_mode clustering \
                                                 --host_filtering \

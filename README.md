@@ -9,12 +9,14 @@
 | RdRp-R | Reverse | 5’-NCKCCANCCRCARAANARNGG-3’ |
 
 
-We recommend using the clustering approach
+In this scenario, we recommend using the clustering approach.We recommend using the --adapter_trimming option to make sure no residual adpaters are present at the start and end of the sequences.
+
 ```
 nextflow run researchqut.ontvisc \
             -resume \
+            -profile singularity \
             --adapter_trimming \
-            --clustering \
+            --analysis_mode clustering \
             --rattle_clustering_options '--lower-length 30 --upper-length 120' \
             --blast_threads 8 \
             --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt

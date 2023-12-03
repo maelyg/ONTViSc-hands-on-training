@@ -1,7 +1,7 @@
 # ONTViSc-hands-on-training
 ## Example of short amplicon product
 
-**Sample ONT009** is a rubus sample which is infected with Rubus yellow net virus. A short amplicon was derived using degenerate primers which enable to separate endogenous versus exogenous RYNV. The product is ~100 bp and fails Sanger sequencing. 
+**Sample ONT009** is a rubus sample which is infected with Rubus yellow net virus. The target is a short amplicon which was derived using degenerate primers that enable to distinguish between endogenous and exogenous RYNVs. The product is ~100 bp and fails Sanger sequencing. 
 
 | Primer Name | Primer type | Primer sequence (5’-3’) |
 | --- | --- | --- |
@@ -9,7 +9,7 @@
 | RdRp-R | Reverse | 5’-NCKCCANCCRCARAANARNGG-3’ |
 
 
-In this scenario, because the amplicon is very short, we recommend using the clustering approach. We recommend using the --adapter_trimming option to make sure no residual adapters are present at the start and end of the sequences.
+In this scenario, because the amplicon is very short, we recommend using the rattle-based clustering approach as the de novo assembly approach generally fail to recover products which are < 1000 bp. We also recommend using the --adapter_trimming option to make sure no residual adapters are present at the start and end of the sequences.
 
 ```
 nextflow run researchqut.ontvisc \
@@ -23,8 +23,8 @@ nextflow run researchqut.ontvisc \
 ```
 
 ## Example of amplicon data derived using 5' and 3' RACE 
-**Sample MT483** 5'and 3' RACE sequencing reactions are ~5000 bp amplicon products which were sequenced using a ligation method to amplify a novel genome identified using sRNASeq. The genome size is predicted to be ~7000 bp.  
-For this example, we want to run porechop_abi so it detects and remove the 5' and 3' RACE adapters so we select --adapter_trimming. 
+For **sample MT483**, 5'and 3' RACE sequencing reactions were derived using a ligation method to amplify overalpping products which cover the full length of a novel genome identified using sRNASeq. The genome size is predicted to be ~7000 bp. Guided by the sequences recovered using sRNASeq, specific primers were used in each RACE which are ~5000 bp products. 
+For this example, we want to run porechop_abi so it detects and removes the 5' and 3' RACE adapters so we select --adapter_trimming. 
 Using the --final_primer_check option, a final primer check will be performed after the de novo assembly step to check for the presence of any residual universal RACE primers at the end of the assembled contigs.
 
 ```
@@ -48,7 +48,7 @@ nextflow run maelyg/ontvisc -resume -profile {singularity, docker} \
 
 ## Example of direct RNA sequencing
 
-The **SRR17660991** sample is from a Nicotiana tabaccum specimen infected with tomato spotted wilt orthotospovirus. This sample is part of a study that was published in 2022 in Frontiers in Microbiology ([*https://www.ncbi.nlm.nih.gov/pmc/articles/PMC913109](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9131090/). The raw data (inc fastq files) are available at https://www.ncbi.nlm.nih.gov/sra/?term=SRR17660991. Total RNA was DNAse treated and polyA tailing was applied for further library preparation using Oxford Nanopore Technologies kit DirectRNA (SQK-RNA002) for sequencing
+The **SRR17660991** sample is from a Nicotiana tabaccum specimen infected with tomato spotted wilt orthotospovirus. This sample is part of a study that was published in 2022 in Frontiers in Microbiology ([*https://www.ncbi.nlm.nih.gov/pmc/articles/PMC913109](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9131090/). The raw data (inc fastq files) are available at https://www.ncbi.nlm.nih.gov/sra/?term=SRR17660991. Total RNA was DNAse treated and polyA tailing were applied for further library preparation using Oxford Nanopore Technologies kit DirectRNA (SQK-RNA002) for sequencing.
 
 For this sample, you can use a de novo approach or a clustering approach.
 
@@ -66,9 +66,9 @@ nextflow run maelyg/ontvisc -resume \
 ```
 
 ## Example of dengue virus sample sequenced at very high depth
-This was sequence usin an amplicon approach. The amplicon size expected to be ~10,000 bp. Raw data available in folder /work/eresearch_bio/test_datasets/ET300 on Lyra.
+This was sequenced using an amplicon approach. The amplicon size expected to be ~10,000 bp. Raw data available in folder /work/eresearch_bio/test_datasets/ET300 on Lyra.
 
-The strategy here is to only retain high quality data. We can be picky here as it was sequenced at very high depth. After checking the QC profile, we can see that by performing harsh quality filtering step, we still retain a decent amount of reads. Chopper retains 14,921 reads using the options '-q 18 -l 9500 --maxlength 11000'.
+The strategy here is to only retain high quality data as it was sequenced at very high depth. After checking the QC profile, we can see that by performing harsh quality filtering step, we should still retain a decent amount of reads. Chopper retains 14,921 reads using the options '-q 18 -l 9500 --maxlength 11000'.
 ```
 nextflow run ~/code/github/main/ontvisc/main.nf -resume \
                                                 -profile singularity \

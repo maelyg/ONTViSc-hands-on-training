@@ -7,7 +7,7 @@ The quality control step will guide you in chosing the right filtering and trimm
 An increasing number of tools is available for sequence data QC and filtering, with different strength and applicaton cases. In this pipeline, we use **Nanoplot**. 
 This tool gives a good overall overview of your data by creating several files in html format which any browser can open as a web-page.
 
-Let's compare Nanoplot statistic outputs from two different kind of ONT samples. The first one is for a sample on which whole genome sequencing was performed. The second was on a sample was an amplicon which was sequenced at very high depth. Pay attention to the mean read length, n50, mean quality and mean quality.
+Let's compare Nanoplot statistic outputs from two ONT samples. The first one is for a sample on which whole genome sequencing was performed. The second was on a sample was an amplicon which was sequenced at very high depth. Pay attention to the mean read length, n50, mean quality and mean quality.
 
 <p align="left"><img src="images/MT001_summary.png" width="750"></p>
 

@@ -1,4 +1,13 @@
 # ONTViSc-hands-on-training
+## Quality control (QC) of Oxford Nanopore data
+The initial step of every sequencing project is the quality control step to assess the quality of your sequencing data. We recommend you first run the **--qc-only** mode of the pipeline to have a preliminary check at your data. 
+You will be able to assess how successful your sequencing run was based on certain statistics (e.g. length and quality score distributions of your reads),
+as well as identify potential problems with your input DNA/RNA, the sequencing run or the data itself.  
+The quality control step will aslo guide you in chosing the right filtering and trimming parameters (i.e. removal of those reads that are too short or too low in quality).
+An increasing number of tools is available for sequence data QC and filtering, with different strength and applicaton cases. In this pipeline, we use **Nanoplot**. 
+This tool gives a good overall overview of your data by creating several files in html format which any browser can open as a web-page.
+
+
 ## Example of whole genome sequencing
 **Sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) followed by whole genome sequencing using [Flongle](https://nanoporetech.com/products/sequence/flongle). Double-stranded (ds) cDNA was synthesised using random hexamers.
 

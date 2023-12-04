@@ -8,13 +8,12 @@
 | MT011 | Citrus | Citrus medica L. | cDNA directly, WGS | direct cDNA sequencing kit (SQK-DCS109), Flongle, double-stranded (ds) cDNA was synthesised using random hexamers | CTV, CVd-VI | ssRNA(+), sscRNA| /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT011_ONT.fastq.gz |
 
 For these we recommend performing a direct read homology search using megablast and the NCBI NT database and direct taxonomic read classification using Kraken2 and Kaiju.
-Example:
-
+```
 # Check for presence of adapters
 # Filter reads against reference host
 # Perform a direct read homology search using megablast and the NCBI NT database.
 # Perform a direct taxonomic read classification using Kraken2 and Kaiju.
-```
+
 nextflow run eresearchqut/ontvisc -resume -profile singularity \
                             --adapter_trimming \
                             --host_filtering \

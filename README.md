@@ -9,19 +9,20 @@ This tool gives a good overall overview of your data by creating several files i
 
 Let's compare Nanoplot statistic outputs from two ONT samples. The first one is for MT001, a sample on which whole genome sequencing was performed. The second was on ET300, an amplicon which was sequenced at very high depth. Pay attention to the mean read length, n50, mean quality and mean quality.
 
-MT001 statistics
+**MT001 statistics:**
 <p align="left"><img src="images/MT001_summary.png" width="750"></p>
 
-ET300 statistics
+**ET300 statistics:**
 <p align="left"><img src="images/ONT300_summary.png" width="750"></p>
 
 You can see that overall, the data is of a higher quality for the MT001 amplicon sample.
  
 
-If we now look at the read length versus avergae read quality plot:
-MT001
-<p align="left"><img src="images/MT001_nanoplot.png" width="1000"></p>
-ET300
+If we now look at the read length versus avergae read quality plot:  
+**MT001 plot:**  
+<p align="left"><img src="images/MT001_nanoplot.png" width="1000"></p>  
+
+**ET300 plot:** 
 <p align="left"><img src="images/ONT300_nanoplot.png" width="1000"></p>
 
 If we compare the plot profiles, we can see that the data distribution looks very different between the 2 samples.  

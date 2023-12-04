@@ -37,7 +37,7 @@ nextflow run eresearchqut/ontvisc -resume -profile singularity \
 ```
 
 After checking the results of the direct read approach, check if some viruses are present in high abundance.
-You will see that MsiMV in sample MT010 is present in high abundance. For these cases, it is possible to try a de novo assembly or clustering approach to see if we can recover its full genome.
+You will see that MsiMV in sample MT010 is present in high abundance. For these cases, it is possible to try a de novo assembly or clustering approach to see if we can recover their full genome.
 To perform a denovo assembly approach on MT010 with the tool Canu, try the following command:
 ```
 #!/bin/bash -l
@@ -284,7 +284,7 @@ nextflow run maelyg/ontvisc -resume \
 ```
 
 ## Example of dengue virus sample sequenced at very high depth
-This was sequenced using an amplicon approach. The amplicon size expected to be ~10,000 bp. Raw data available in folder /work/eresearch_bio/test_datasets/ET300 on Lyra.
+This was sequenced using an amplicon approach. The amplicon size is expected to be ~10,000 bp. Raw data is available in folder /work/eresearch_bio/test_datasets/ET300 on Lyra.
 
 The strategy here is to only retain high quality data as it was sequenced at very high depth. After checking the QC profile, we can see that by performing harsh quality filtering step, we should still retain a decent amount of reads. Chopper retains 14,921 reads using the options '-q 18 -l 9500 --maxlength 11000'.
 ```

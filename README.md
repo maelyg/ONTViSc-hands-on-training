@@ -26,8 +26,8 @@ If we now look at the read length versus average read quality plot:
 <p align="left"><img src="images/ONT300_nanoplot.png" width="1000"></p>
 
 If we compare the plot profiles, we can see that the data distribution looks very different between the 2 samples.  
-In MT001, most of the reads are short, so we might skip the quality filtering step as most of the data will be filtered out.  
-In ONT300, we recover a lot of reads that are 10k in length so we can confidently perform a quality filtering step based on length since the sample was an amplicon and was seqeunced at very high depth.  
+In MT001, most of the reads are short, so we will not perform a quality filtering step as most of the data would otherwise be filtered out.  
+In ONT300, we recover a lot of reads that are 10k in length so we can confidently perform a quality filtering step based on length since the sample was an amplicon and was sequenced at very high depth.  
 
 ## Example of whole genome sequencing
 **Sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) followed by whole genome sequencing using [Flongle](https://nanoporetech.com/products/sequence/flongle). Double-stranded (ds) cDNA was synthesised using random hexamers.
@@ -45,6 +45,7 @@ For these samples, we recommend performing first a direct read homology search u
 - megablast and the NCBI NT database
 - direct taxonomic read classification using Kraken2 (nucleotide-based) and Kaiju (protein-based).  
 This will provide a quick overview of whether samples are predicted to be infected with any viruses and/or viroids, and warrant further investigation.
+We also recommend to filter host reads before performing the direct read searches.
 ```
 # This command will:
 # Check for the presence of adapters
@@ -69,7 +70,7 @@ nextflow run eresearchqut/ontvisc -resume -profile singularity \
 ```
 
 After checking the results of the direct read approach, check if some viruses are present in high abundance.
-You will see that MsiMV in sample MT010 is present in high abundance. For these cases, it is possible to try a de novo assembly or clustering approach to see if we can recover their full genome.
+You will see that we recover high coverage for MsiMV in sample MT010. For these cases, it is possible to try a de novo assembly or clustering approach to see if we can reconstruct their full genome.
 To perform a denovo assembly approach on MT010 with the tool Canu, try the following command:
 ```
 #!/bin/bash -l

@@ -32,8 +32,9 @@ nextflow run eresearchqut/ontvisc -resume -profile singularity \
                             --blastn_db /path/to/ncbi_blast_db/nt
 ```
 
-After checking the results of the direct read approach, if some viruses are present in high abundance in a specific samples (e.g. MT010), then it is possible to try other methods (e.g. de novo assembly or clustering).
-To perfomr a denovo assembly approach with the tool Canu, try the following command:
+After checking the results of the direct read approach, check if some viruses are present in high abundance.
+You will see that MsiMV in sample MT010 is present in high abundance. For these cases, it is possible to try de novo assembly or clustering to see if we can recover its full genome.
+To perfomr a denovo assembly approach on MT010 with the tool Canu, try the following command:
 ```
 #!/bin/bash -l
 #PBS -N ontvisc

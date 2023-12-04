@@ -7,11 +7,19 @@ The quality control step will guide you in chosing the right filtering and trimm
 An increasing number of tools is available for sequence data QC and filtering, with different strength and applicaton cases. In this pipeline, we use **Nanoplot**. 
 This tool gives a good overall overview of your data by creating several files in html format which any browser can open as a web-page.
 
-Let's compare Nanoplot outputs from two different samples. The first one is for a sample on which whole genome sequencing was performed. The second was on a sample was an amplicon was was sequenced at very high depth.
+Let's compare Nanoplot statistic outputs from two different kind of ONT samples. The first one is for a sample on which whole genome sequencing was performed. The second was on a sample was an amplicon was was sequenced at very high depth. Pay attention to the mean read length, n50, mean quality and mean quality.
 
 <p align="left"><img src="images/MT001_summary.png" width="750"></p>
 
 <p align="left"><img src="images/ONT300_summary.png" width="750"></p>
+
+You can see that overall, the data is of a higher quality for the amplicon sample.
+
+If we now look at the read length versus avergae read quality plot:
+
+<p align="left"><img src="images/MT001_nanoplot.png" width="750"></p>
+
+<p align="left"><img src="images/ONT300_nanoplot.png" width="750"></p>
 
 ## Example of whole genome sequencing
 **Sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) followed by whole genome sequencing using [Flongle](https://nanoporetech.com/products/sequence/flongle). Double-stranded (ds) cDNA was synthesised using random hexamers.

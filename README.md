@@ -18,7 +18,7 @@ Let's compare Nanoplot statistic outputs from two ONT samples. The first one is 
 You can see that overall, the data is of a higher quality for the MT001 amplicon sample.
  
 
-If we now look at the read length versus avergae read quality plot:  
+If we now look at the read length versus average read quality plot:  
 **MT001 plot:**  
 <p align="left"><img src="images/MT001_nanoplot.png" width="1000"></p>  
 

@@ -7,19 +7,21 @@ The quality control step will guide you in chosing the right filtering and trimm
 An increasing number of tools is available for sequence data QC and filtering, with different strength and applicaton cases. In this pipeline, we use **Nanoplot**. 
 This tool gives a good overall overview of your data by creating several files in html format which any browser can open as a web-page.
 
-Let's compare Nanoplot statistic outputs from two ONT samples. The first one is for a sample on which whole genome sequencing was performed. The second was on a sample was an amplicon which was sequenced at very high depth. Pay attention to the mean read length, n50, mean quality and mean quality.
+Let's compare Nanoplot statistic outputs from two ONT samples. The first one is for MT001, a sample on which whole genome sequencing was performed. The second was on ET300, an amplicon which was sequenced at very high depth. Pay attention to the mean read length, n50, mean quality and mean quality.
 
+MT001 statistics
 <p align="left"><img src="images/MT001_summary.png" width="750"></p>
 
+ET300 statistics
 <p align="left"><img src="images/ONT300_summary.png" width="750"></p>
 
-You can see that overall, the data is of a higher quality for the amplicon sample.
+You can see that overall, the data is of a higher quality for the MT001 amplicon sample.
  
 
 If we now look at the read length versus avergae read quality plot:
-
+MT001
 <p align="left"><img src="images/MT001_nanoplot.png" width="1000"></p>
-
+ET300
 <p align="left"><img src="images/ONT300_nanoplot.png" width="1000"></p>
 
 If we compare the plot profiles, we can see that the data distribution looks very different between the 2 samples.  

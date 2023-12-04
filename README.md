@@ -193,6 +193,24 @@ CGTGATTGTGCTTAATCGTGTTCGGTTGTGTAGCAATACGTAACTGAACGAAGTACAA
 ```
 This contig shows 99% coverage to OL312763.1.
 
+You can also test Flye. You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.
+```
+ #!/bin/bash -l
+#PBS -N ontvisc
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=12:00:00
+
+cd $PBS_O_WORKDIR
+module load java
+NXF_OPTS='-Xms1g -Xmx4g'
+nextflow run ~/code/github/ontvisc/main.nf -resume --denovo_assembly \
+                                                   --flye \
+                                                   --flye_options '--genome-size 0.01m --meta' \
+                                                   --blast_threads 8 \
+                                                   --blastn_db /path/to/ncbi_blast_db/nt
+                                                   
+```
+You can now compare the contigs obtained with Flye and Canu.
 
 ## Example of short amplicon product
 

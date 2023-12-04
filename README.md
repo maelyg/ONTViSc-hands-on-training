@@ -7,7 +7,7 @@ The quality control step will guide you in chosing the right filtering and trimm
 An increasing number of tools is available for sequence data QC and filtering, with different strength and applicaton cases. In this pipeline, we use **Nanoplot**. 
 This tool gives a good overall overview of your data by creating several files in html format which any browser can open as a web-page.
 
-Let's compare two Nanoplot outputs: the first one is for a sample on which whole genome sequencing was performed. the second was on a sample was an amplicon ehich was seqeunced at very high depth.
+Let's compare two Nanoplot outputs: the first one is for a sample on which whole genome sequencing was performed (https://github.com/maelyg/ONTViSc-hands-on-training/tree/main/images/MT001_MT001_raw_NanoPlot-report.html). the second was on a sample was an amplicon ehich was seqeunced at very high depth (https://github.com/maelyg/ONTViSc-hands-on-training/tree/main/images/ET300_ET300_raw_NanoPlot-report.html).
 
 
 ## Example of whole genome sequencing

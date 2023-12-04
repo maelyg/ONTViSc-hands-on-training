@@ -1,11 +1,13 @@
 # ONTViSc-hands-on-training
 ## Quality control (QC) of Oxford Nanopore data
-The initial step of every sequencing project is the quality control step to assess the quality of your sequencing data. We recommend you first run the **--qc-only** mode of the pipeline to have a preliminary check at your data. 
+The initial step of every sequencing project is the quality control step to assess the quality of your sequencing data. For this reason, we recommend you first run the **--qc-only** mode of the pipeline to perform a preliminary check of your data. 
 You will be able to assess how successful your sequencing run was based on certain statistics (e.g. length and quality score distributions of your reads),
 as well as identify potential problems with your input DNA/RNA, the sequencing run or the data itself.  
-The quality control step will aslo guide you in chosing the right filtering and trimming parameters (i.e. removal of those reads that are too short or too low in quality).
+The quality control step will guide you in chosing the right filtering and trimming parameters (i.e. removal of those reads that are too short or too low in quality).
 An increasing number of tools is available for sequence data QC and filtering, with different strength and applicaton cases. In this pipeline, we use **Nanoplot**. 
 This tool gives a good overall overview of your data by creating several files in html format which any browser can open as a web-page.
+
+Let's compare two Nanoplot outputs: the first one is for a sample on which whole genome sequencing was performed. the second was on a sample was an amplicon ehich was seqeunced at very high depth.
 
 
 ## Example of whole genome sequencing
@@ -23,7 +25,7 @@ The samples originate from different plant commodities (citrus, prunus and misca
 For these samples, we recommend performing first a direct read homology search using:
 - megablast and the NCBI NT database
 - direct taxonomic read classification using Kraken2 (nucleotide-based) and Kaiju (protein-based).  
-This will provide a quick overview of whether samples are infected.
+This will provide a quick overview of whether samples are predicted to be infected with any viruses and/or viroids, and warrant further investigation.
 ```
 # This command will:
 # Check for the presence of adapters

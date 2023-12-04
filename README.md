@@ -1,14 +1,15 @@
 # ONTViSc-hands-on-training
 ## Example of whole genome sequencing
-**Sample MT001, MT002, MT010 and MT011** are whole genome samples that were derived using direct cDNA sequencing kit (SQK-DCS109) on whole genome sequences uisng Flongle. Double-stranded (ds) cDNA was synthesised using random hexamers.
+**Sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) on whole genome sequences using Flongle. Double-stranded (ds) cDNA was synthesised using random hexamers.
 
 | Sample name | Host | Virus | Genome type | Dataset |
 | --- | --- | ---  | --- | --- |
 | MT001 | Citrus | CEVd, (Citrus endogenous pararetrovirus) | sscRNA | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT001_ONT.fastq.gz |
 | MT002 | Prunus | PNRSV | ssRNA(+) tripartite | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT002_ONT.fastq.gz |
+| MT010 | Miscanthus | MsiMV | ssRNA(+) | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT010_ONT.fastq.gz |
 | MT011 | Citrus | CTV, CVd-VI | ssRNA(+), sscRNA| /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT011_ONT.fastq.gz |
 
-For these we recommend performing a direct read homology search using megablast and the NCBI NT database and direct taxonomic read classification using Kraken2 and Kaiju.
+For these we recommend performing first a direct read homology search using megablast and the NCBI NT database and direct taxonomic read classification using Kraken2 and Kaiju.
 ```
 # Check for presence of adapters
 # Filter reads against reference host
@@ -31,6 +32,7 @@ nextflow run eresearchqut/ontvisc -resume -profile singularity \
                             --blastn_db /path/to/ncbi_blast_db/nt
 ```
 
+After checking the results of the direct read approach, if some viruses are present in high abundance in a specific samples (e.f. MT010), then it is possible to try the other method (e.g. de novo assembly).
 
 ## Example of short amplicon product
 

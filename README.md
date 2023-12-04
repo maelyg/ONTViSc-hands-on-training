@@ -32,8 +32,8 @@ nextflow run eresearchqut/ontvisc -resume -profile singularity \
                             --blastn_db /path/to/ncbi_blast_db/nt
 ```
 
-After checking the results of the direct read approach, if some viruses are present in high abundance in a specific samples (e.g. MT010), then it is possible to try the other method (e.g. de novo assembly).
-To test with the tool Canu, try the following command:
+After checking the results of the direct read approach, if some viruses are present in high abundance in a specific samples (e.g. MT010), then it is possible to try other methods (e.g. de novo assembly or clustering).
+To perfomr a denovo assembly approach with the tool Canu, try the following command:
 ```
 #!/bin/bash -l
 #PBS -N ontvisc

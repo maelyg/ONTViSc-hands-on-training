@@ -256,7 +256,7 @@ nextflow run eresearchqut/ontvisc -resume profile singularity \
 ## Example of amplicon data derived using 5' and 3' RACE 
 For **sample MT483**, 5'and 3' RACE sequencing reactions were derived using a ligation method to amplify overlapping products which cover the full length of a novel genome identified using sRNASeq. The genome size is predicted to be ~7000 bp. Guided by the sequences recovered using sRNASeq, specific primers were used in each RACE which are ~5000 bp products. 
 For this example, we are analysing the 5' and 3' RACE together, so you will place all the reads into a single folder. 
-You want to run porechop_abi so it detects and removes the 5' and 3' RACE adapters so we select --adapter_trimming. Here porechop will search specifically for the RACE adapter provided in the adapters.txt file. 
+You want to run porechop_abi so it detects and removes any remaining adapters so we select --adapter_trimming. Here porechop will search specifically for the RAPID adaper provided in the adapters.txt file. 
 Using the --final_primer_check option, a final primer check will be performed after the de novo assembly step to check for the presence of any residual universal RACE primers at the end of the assembled contigs.
 You can either blast against NCBI or the predicted nucleotide sequence of the viral genome.
 
@@ -306,7 +306,7 @@ AAATCTTAACTTGCTGCGTTTGAGGTAGAGGAATGTGGTTCTCTCTCTGCGGCAAGTATTCGCCTACGATTCCAAGGAGT
 AGTTTTGTAAGCTTCTTCTTGTACAACTGCCCTGACTGAGGCGTCAGTGACGTTTGCAAGTACCTTGGAAACCAAAGCCATAATAACTGGACGGAGGTCAAAGACCACTAGTGTTGTTATAAAGGGCTGGTTTGAGGTAGGTTGTGGTGGGTTGGTTTGTGGTGTGTTTTCC
 ```
 
-If you notice that there is a polyT tail at the start of the seqeunce, you can use [reverse complement](https://www.bioinformatics.org/sms/rev_comp.html) to reverese complement it before blasting it to NCBI for ease of interpretation.
+If you notice that there is a polyT tail at the start of the seqeunce, you can use [reverse complement](https://www.bioinformatics.org/sms/rev_comp.html) to reverse complement it before blasting it to NCBI, for ease of interpretation.
 The panel below shows the blast results:
 
 ```
@@ -777,8 +777,7 @@ Query  6779  Caaaaaaaaaaaaaa  6793
 Sbjct  6781  CAAAAAAAAAAAAAA  6795
 ```
 
-You can now go in the canu folder (results/MT483/assembly/canu) to check the original canu contig (tig00000003), in the MT483_canu_assembly.fasta file. You will notice that without the final primer check, the contig had an extra stretch of nucleotide at its 3' end (CCCGCGTACTCTGCGTTGATACCACTGCTT) which matched the RACE universal adapter.
-
+You can now go in the canu folder (results/MT483/assembly/canu) to check the original canu contig (tig00000003), in the MT483_canu_assembly.fasta file. You will notice that without the final primer check, the contig had an extra stretch of nucleotide at its 3' end (CCCGCGTACTCTGCGTTGATACCACTGCTT) which matched the Template-switching oligonucleotide (AAGCAGTGGTATCAACGCAGAGTACGCGGG).
 
 Reads can also be directly mapped to the predicted amplicon sequence if it is known:
 ```

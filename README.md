@@ -9,10 +9,14 @@
 | MT010 | Miscanthus | MsiMV | ssRNA(+) | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT010_ONT.fastq.gz |
 | MT011 | Citrus | CTV, CVd-VI | ssRNA(+), sscRNA| /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT011_ONT.fastq.gz |
 
-For these we recommend performing first a direct read homology search using megablast and the NCBI NT database and direct taxonomic read classification using Kraken2 and Kaiju.
+For these we recommend performing first a direct read homology search using:
+- megablast and the NCBI NT database
+- direct taxonomic read classification using Kraken2 (nucleotide-based) and Kaiju (protein-based).
+
 ```
-# Check for presence of adapters
-# Filter reads against reference host
+# This command will:
+# Check for the presence of adapters
+# Filter reads against the reference host
 # Perform a direct read homology search using megablast and the NCBI NT database.
 # Perform a direct taxonomic read classification using Kraken2 and Kaiju.
 
@@ -33,8 +37,8 @@ nextflow run eresearchqut/ontvisc -resume -profile singularity \
 ```
 
 After checking the results of the direct read approach, check if some viruses are present in high abundance.
-You will see that MsiMV in sample MT010 is present in high abundance. For these cases, it is possible to try de novo assembly or clustering to see if we can recover its full genome.
-To perfomr a denovo assembly approach on MT010 with the tool Canu, try the following command:
+You will see that MsiMV in sample MT010 is present in high abundance. For these cases, it is possible to try a de novo assembly or clustering approach to see if we can recover its full genome.
+To perform a denovo assembly approach on MT010 with the tool Canu, try the following command:
 ```
 #!/bin/bash -l
 #PBS -N ontvisc
@@ -51,7 +55,7 @@ nextflow run eresearchqut/ontvisc -resume --denovo_assembly \
                                  --blast_threads 8 \
                                  --blastn_db /path/to/ncbi_blast_db/nt
 ```
-Running this command should enable to recover close to the full genome of MsiMV 
+Running this command should enable recovering close to the full genome of MsiMV.
 ```
 >tig00000001 len=9578 reads=523 class=contig suggestRepeat=no suggestBubble=no suggestCircular=no trim=0-9578
 AATAAACTCGCAACCTTCGTGATAAAATCACTCCAGAGGCCGTCCGTCTAGTGGCTCGAAGCTAGTAAAA

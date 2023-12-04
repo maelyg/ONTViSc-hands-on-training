@@ -307,7 +307,8 @@ AGTTTTGTAAGCTTCTTCTTGTACAACTGCCCTGACTGAGGCGTCAGTGACGTTTGCAAGTACCTTGGAAACCAAAGCCA
 ```
 
 If you notice that there is a polyT tail at the start of the seqeunce, you can use [reverse complement](https://www.bioinformatics.org/sms/rev_comp.html) to reverse complement it before blasting it to NCBI, for ease of interpretation.
-The panel below shows the blast results:
+The panels below shows the blast results:
+<p align="left"><img src="images/blast_results2.png" width="750"></p>
 
 ```
 Query: None Query ID: lcl|Query_121611 Length: 6813
@@ -777,7 +778,7 @@ Query  6779  Caaaaaaaaaaaaaa  6793
 Sbjct  6781  CAAAAAAAAAAAAAA  6795
 ```
 
-You can now go in the canu folder (results/MT483/assembly/canu) to check the original canu contig (tig00000003), in the MT483_canu_assembly.fasta file. You will notice that without the final primer check, the contig had an extra stretch of nucleotide at its 3' end (CCCGCGTACTCTGCGTTGATACCACTGCTT) which matched the Template-switching oligonucleotide (AAGCAGTGGTATCAACGCAGAGTACGCGGG).
+You can now go in the canu folder (results/MT483/assembly/canu) to check the original canu contig (tig00000003), in the MT483_canu_assembly.fasta file. If you comapre it to the final contig after the cutadapt step was applied, you will notice that without the final primer check, the contig had an extra stretch of nucleotide at its 3' end (CCCGCGTACTCTGCGTTGATACCACTGCTT) which matches the Template-switching oligonucleotide (AAGCAGTGGTATCAACGCAGAGTACGCGGG) which was used during the RACE library preparation.
 
 Reads can also be directly mapped to the predicted amplicon sequence if it is known:
 ```

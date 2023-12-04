@@ -244,6 +244,8 @@ nextflow run researchqut.ontvisc \
 For **sample MT483**, 5'and 3' RACE sequencing reactions were derived using a ligation method to amplify overalpping products which cover the full length of a novel genome identified using sRNASeq. The genome size is predicted to be ~7000 bp. Guided by the sequences recovered using sRNASeq, specific primers were used in each RACE which are ~5000 bp products. 
 For this example, we want to run porechop_abi so it detects and removes the 5' and 3' RACE adapters so we select --adapter_trimming. 
 Using the --final_primer_check option, a final primer check will be performed after the de novo assembly step to check for the presence of any residual universal RACE primers at the end of the assembled contigs.
+You can either blast against NCBI or the predicted nucleotide sequence of the viral genome.
+
 
 ```
 nextflow run researchqut.ontvisc \
@@ -257,6 +259,7 @@ nextflow run researchqut.ontvisc \
              --final_primer_check \
              --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt
 ```
+
 Reads can also be directly mapped to the predicted amplicon sequence if it is known:
 ```
 nextflow run maelyg/ontvisc -resume -profile {singularity, docker} \

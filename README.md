@@ -17,9 +17,9 @@ You can see that overall, the data is of a higher quality for the amplicon sampl
 
 If we now look at the read length versus avergae read quality plot:
 
-<p align="left"><img src="images/MT001_nanoplot.png" width="750"></p>
+<p align="left"><img src="images/MT001_nanoplot.png" width="250"></p>
 
-<p align="left"><img src="images/ONT300_nanoplot.png" width="750"></p>
+<p align="left"><img src="images/ONT300_nanoplot.png" width="250"></p>
 
 ## Example of whole genome sequencing
 **Sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) followed by whole genome sequencing using [Flongle](https://nanoporetech.com/products/sequence/flongle). Double-stranded (ds) cDNA was synthesised using random hexamers.

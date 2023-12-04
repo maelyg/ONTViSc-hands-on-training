@@ -197,7 +197,7 @@ CGCTTAGGTTTACAGAGAGTTCTTTCAAGGCACCTTGCGCTTGAACCGTGAACTTCTATCTGAGTTTGAA
 CGTGATTGTGCTTAATCGTGTTCGGTTGTGTAGCAATACGTAACTGAACGAAGTACAA
 ```
 This contig shows 99% coverage to OL312763.1.
-<p align="center"><img src="images/blast_results.png" width="750"></p>
+<p align="left"><img src="images/blast_results.png" width="750"></p>
 
 
 You can also test Flye. You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.

@@ -7,13 +7,10 @@ The quality control step will guide you in chosing the right filtering and trimm
 An increasing number of tools is available for sequence data QC and filtering, with different strength and applicaton cases. In this pipeline, we use **Nanoplot**. 
 This tool gives a good overall overview of your data by creating several files in html format which any browser can open as a web-page.
 
-Let's compare two Nanoplot outputs. The first one is for a sample on which whole genome sequencing was performed. The second was on a sample was an amplicon ehich was seqeunced at very high depth. 
-```
-wget https://github.com/maelyg/ONTViSc-hands-on-training/blob/main/images/MT001_raw_NanoPlot-report.html
-wget https://github.com/maelyg/ONTViSc-hands-on-training/blob/main/images/ET300_ET300_raw_NanoPlot-report.html
-```
+Let's compare two Nanoplot outputs. Open the following htm files in a separate tab. The first one is for a sample on which whole genome sequencing was performed (https://htmlpreview.github.io/?https://github.com/maelyg/ONTViSc-hands-on-training/blob/main/images/MT001_raw_NanoPlot-report.html). The second was on a sample was an amplicon ehich was seqeunced at very high depth (https://htmlpreview.github.io/?https://github.com/maelyg/ONTViSc-hands-on-training/blob/main/images/ET300_raw_NanoPlot-report.html). 
 
-
+https://github.com/maelyg/ONTViSc-hands-on-training/blob/main/images/MT001_raw_NanoPlot-report.html
+https://gauthiem.github.io/ONTViSc-hands-on-training/blob/main/images/index.html
 ## Example of whole genome sequencing
 **Sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) followed by whole genome sequencing using [Flongle](https://nanoporetech.com/products/sequence/flongle). Double-stranded (ds) cDNA was synthesised using random hexamers.
 

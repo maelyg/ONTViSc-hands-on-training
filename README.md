@@ -8,10 +8,7 @@ An increasing number of tools is available for sequence data QC and filtering, w
 This tool gives a good overall overview of your data by creating several files in html format which any browser can open as a web-page.
 
 Let's compare Nanoplot outputs from two different samples. The first one is for a sample on which whole genome sequencing was performed. The second was on a sample was an amplicon ehich was seqeunced at very high depth.
-<p align="left"><img src="images/MT001_summary.txt" width="750"></p>
-<p align="left"><img src="images/ONT300_summary.txt" width="750"></p>
-
-
+<img src="images/MT001_summary.txt" width="425"></p> <img src="images/ONT300_summary.txt" width="425"></p>
 
 
 ## Example of whole genome sequencing

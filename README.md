@@ -1,6 +1,8 @@
 # ONTViSc-hands-on-training
 ## Example of whole genome sequencing
-**Sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) on whole genome sequences using Flongle. Double-stranded (ds) cDNA was synthesised using random hexamers.
+**Sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) followed by whole genome sequencing using [Flongle](https://nanoporetech.com/products/sequence/flongle). Double-stranded (ds) cDNA was synthesised using random hexamers.
+
+The samples originate from different plant commodities (citrus, prunus and miscanthus) and contain different virus types:
 
 | Sample name | Host | Virus | Genome type | Dataset |
 | --- | --- | ---  | --- | --- |
@@ -9,10 +11,10 @@
 | MT010 | Miscanthus | MsiMV | ssRNA(+) | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT010_ONT.fastq.gz |
 | MT011 | Citrus | CTV, CVd-VI | ssRNA(+), sscRNA| /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT011_ONT.fastq.gz |
 
-For these we recommend performing first a direct read homology search using:
+For these samples, we recommend performing first a direct read homology search using:
 - megablast and the NCBI NT database
-- direct taxonomic read classification using Kraken2 (nucleotide-based) and Kaiju (protein-based).
-
+- direct taxonomic read classification using Kraken2 (nucleotide-based) and Kaiju (protein-based).  
+This will provide a quick overview of whether samples are infected.
 ```
 # This command will:
 # Check for the presence of adapters

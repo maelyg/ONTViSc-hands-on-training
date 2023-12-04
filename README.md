@@ -50,14 +50,15 @@ To perform a denovo assembly approach on MT010 with the tool Canu, try the follo
 cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
-nextflow run eresearchqut/ontvisc -resume --denovo_assembly \
+nextflow run eresearchqut/ontvisc -resume profile singularity \
+                                 --denovo_assembly \
                                  --canu \
                                  --canu_genome_size 0.01m \
                                  --canu_options 'useGrid=false maxInputCoverage=2000 minReadLength=200 minOverlapLength=100' \
                                  --blast_threads 8 \
                                  --blastn_db /path/to/ncbi_blast_db/nt
 ```
-Running this command should enable recovering close to the full genome of MsiMV.
+Running this command should enable the recovery of most of the MsiMV genome.
 ```
 >tig00000001 len=9578 reads=523 class=contig suggestRepeat=no suggestBubble=no suggestCircular=no trim=0-9578
 AATAAACTCGCAACCTTCGTGATAAAATCACTCCAGAGGCCGTCCGTCTAGTGGCTCGAAGCTAGTAAAA
@@ -202,7 +203,7 @@ This contig shows 99% coverage to OL312763.1.
 <p align="left"><img src="images/blast_results.png" width="750"></p>
 
 
-You can also test Flye. You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.
+You can also test teh assembler Flye. You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.
 ```
  #!/bin/bash -l
 #PBS -N ontvisc
@@ -212,12 +213,13 @@ You can also test Flye. You will want to specify the paramater --meta as this sa
 cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
-nextflow run ~/code/github/ontvisc/main.nf -resume --denovo_assembly \
-                                                   --flye \
-                                                   --flye_options '--genome-size 0.01m --meta' \
-                                                   --blast_threads 8 \
-                                                   --blastn_db /path/to/ncbi_blast_db/nt
-                                                   
+nextflow run eresearchqut/ontvisc -resume profile singularity \
+                                  --denovo_assembly \
+                                  --flye \
+                                  --flye_options '--genome-size 0.01m --meta' \
+                                  --blast_threads 8 \
+                                  --blastn_db /path/to/ncbi_blast_db/nt
+                                                 
 ```
 You can now compare the contigs obtained with Flye and Canu.
 
@@ -231,42 +233,38 @@ You can now compare the contigs obtained with Flye and Canu.
 | RdRp-R | Reverse | 5’-NCKCCANCCRCARAANARNGG-3’ |
 
 
-In this scenario, because the amplicon is very short, we recommend using the rattle-based clustering approach as the de novo assembly approach generally fail to recover products which are < 1000 bp. We also recommend using the --adapter_trimming option to make sure no residual adapters are present at the start and end of the sequences.
+In this scenario, because the amplicon is very short, we recommend using the rattle-based clustering approach as the de novo assembly approach generally fails to recover products which are < 1000 bp. We also recommend using the --adapter_trimming option to make sure no residual adapters are present at the start and end of the sequences.
 
 ```
-nextflow run researchqut.ontvisc \
-            -resume \
-            -profile singularity \
-            --adapter_trimming \
-            --analysis_mode clustering \
-            --rattle_clustering_options '--lower-length 30 --upper-length 120' \
-            --blast_threads 8 \
-            --blastn_db /path/to/host/fasta/file
+nextflow run eresearchqut/ontvisc -resume profile singularity \
+                                  --adapter_trimming \
+                                  --analysis_mode clustering \
+                                  --rattle_clustering_options '--lower-length 30 --upper-length 120' \
+                                  --blast_threads 8 \
+                                  --blastn_db /path/to/host/fasta/file
 ```
 
 ## Example of amplicon data derived using 5' and 3' RACE 
-For **sample MT483**, 5'and 3' RACE sequencing reactions were derived using a ligation method to amplify overalpping products which cover the full length of a novel genome identified using sRNASeq. The genome size is predicted to be ~7000 bp. Guided by the sequences recovered using sRNASeq, specific primers were used in each RACE which are ~5000 bp products. 
-For this example, we want to run porechop_abi so it detects and removes the 5' and 3' RACE adapters so we select --adapter_trimming. 
+For **sample MT483**, 5'and 3' RACE sequencing reactions were derived using a ligation method to amplify overlapping products which cover the full length of a novel genome identified using sRNASeq. The genome size is predicted to be ~7000 bp. Guided by the sequences recovered using sRNASeq, specific primers were used in each RACE which are ~5000 bp products. 
+For this example, we are analysing the 5' and 3' RACE together, so you will place all the reads into a single folder. 
+You want to run porechop_abi so it detects and removes the 5' and 3' RACE adapters so we select --adapter_trimming. 
 Using the --final_primer_check option, a final primer check will be performed after the de novo assembly step to check for the presence of any residual universal RACE primers at the end of the assembled contigs.
 You can either blast against NCBI or the predicted nucleotide sequence of the viral genome.
 
-
 ```
-nextflow run researchqut.ontvisc \
-             -resume \
-             -profile singularity \
-             --adapter_trimming \
-             --analysis_mode denovo_assembly \
-             --canu \
-             --canu_options 'useGrid=false' \
-             --canu_genome_size 0.01m \
-             --final_primer_check \
-             --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt
+nextflow run eresearchqut/ontvisc -resume -profile singularity \
+                                 --adapter_trimming \
+                                 --analysis_mode denovo_assembly \
+                                 --canu \
+                                 --canu_options 'useGrid=false' \
+                                 --canu_genome_size 0.01m \
+                                 --final_primer_check \
+                                 --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt
 ```
 
 Reads can also be directly mapped to the predicted amplicon sequence if it is known:
 ```
-nextflow run maelyg/ontvisc -resume -profile {singularity, docker} \
+nextflow run maelyg/ontvisc -resume -profile singularity \
                             --analysis_mode map2ref \
                             --reference /work/eresearch_bio/test_datasets/MT483_amplicon_RACE_new_chemistry_ligation/AobVX.fasta
 ```
@@ -279,15 +277,14 @@ For this sample, you can use a de novo approach or a clustering approach.
 
 
 ```
-nextflow run maelyg/ontvisc -resume \
-                        -profile singularity \
-                        --analysis_mode clustering \
-                        --host_filtering \
-                        --qual_filt --chopper_options '-q 10' \
-                        --blast_threads 8 --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt \
-                        --rattle_clustering_options '--rna --lower-length 1000 --upper-length 150000' \
-                        --rattle_polishing_options '--rna' \
-                        --host_fasta ~/code/micropipe/test_data/Plant_host_sequences11_ed.fasta
+nextflow run eresearchqut/ontvisc -resume -profile singularity \
+                                  --analysis_mode clustering \
+                                  --host_filtering \
+                                  --qual_filt --chopper_options '-q 10' \
+                                  --blast_threads 8 --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt \
+                                  --rattle_clustering_options '--rna --lower-length 1000 --upper-length 150000' \
+                                  --rattle_polishing_options '--rna' \
+                                  --host_fasta ~/code/micropipe/test_data/Plant_host_sequences11_ed.fasta
 ```
 
 ## Example of dengue virus sample sequenced at very high depth
@@ -295,10 +292,9 @@ This was sequenced using an amplicon approach. The amplicon size is expected to 
 
 The strategy here is to only retain high quality data as it was sequenced at very high depth. After checking the QC profile, we can see that by performing harsh quality filtering step, we should still retain a decent amount of reads. Chopper retains 14,921 reads using the options '-q 18 -l 9500 --maxlength 11000'.
 ```
-nextflow run ~/code/github/main/ontvisc/main.nf -resume \
-                                                -profile singularity \
-                                                --qual_filt \
-                                                --chopper_options '-q 18 -l 9500 --maxlength 11000' \
-                                                --blast_threads 8 --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt \
-                                                --clustering  --rattle_clustering_options '--lower-length 9000 --upper-length 11000'
+nextflow run eresearchqut/ontvisc -resume -profile singularity \
+                                  --qual_filt \
+                                  --chopper_options '-q 18 -l 9500 --maxlength 11000' \
+                                  --blast_threads 8 --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt \
+                                  --clustering  --rattle_clustering_options '--lower-length 9000 --upper-length 11000'
 ```

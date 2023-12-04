@@ -7,6 +7,31 @@
 | MT002 | Prunus | Prunus persica | cDNA directly, WGS | direct cDNA sequencing kit (SQK-DCS109), Flongle, double-stranded (ds) cDNA was synthesised using random hexamers | PNRSV | ssRNA(+) tripartite | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT002_ONT.fastq.gz |
 | MT011 | Citrus | Citrus medica L. | cDNA directly, WGS | direct cDNA sequencing kit (SQK-DCS109), Flongle, double-stranded (ds) cDNA was synthesised using random hexamers | CTV, CVd-VI | ssRNA(+), sscRNA| /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT011_ONT.fastq.gz |
 
+For these we recommend performing a direct read homology search using megablast and the NCBI NT database and direct taxonomic read classification using Kraken2 and Kaiju.
+Example:
+
+# Check for presence of adapters
+# Filter reads against reference host
+# Perform a direct read homology search using megablast and the NCBI NT database.
+# Perform a direct taxonomic read classification using Kraken2 and Kaiju.
+```
+nextflow run eresearchqut/ontvisc -resume -profile singularity \
+                            --adapter_trimming \
+                            --host_filtering \
+                            --host_fasta /path/to/host/fasta/file \
+                            --analysis_mode read_classification \
+                            --kraken2 \
+                            --krkdb /path/to/kraken2_db \
+                            --kaiju \
+                            --kaiju_dbname /path/to/kaiju/kaiju.fmi \
+                            --kaiju_nodes /path/to/kaiju/nodes.dmp \
+                            --kaiju_names /path/to/kaiju/names.dmp \
+                            --megablast --blast_mode ncbi \
+                            --blast_threads 8 \
+                            --blastn_db /path/to/ncbi_blast_db/nt
+```
+
+
 ## Example of short amplicon product
 
 **Sample ONT009** is a rubus sample which is infected with Rubus yellow net virus. The target is a short amplicon which was derived using degenerate primers that enable to distinguish between endogenous and exogenous RYNVs. The product is ~100 bp and fails Sanger sequencing. 
@@ -27,7 +52,7 @@ nextflow run researchqut.ontvisc \
             --analysis_mode clustering \
             --rattle_clustering_options '--lower-length 30 --upper-length 120' \
             --blast_threads 8 \
-            --blastn_db /work/hia_mt18005/databases/blastDB/20230606/nt
+            --blastn_db /path/to/host/fasta/file
 ```
 
 ## Example of amplicon data derived using 5' and 3' RACE 

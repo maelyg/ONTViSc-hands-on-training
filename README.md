@@ -1,11 +1,12 @@
 # ONTViSc-hands-on-training
 ## Example of whole genome sequencing
-**Sample MT001, MT002, MT010 and MT011** are whole genome samples. 
-| Sample name | Host | Sequencing library type | Library preparation kit | Virus | Genome type | Dataset |
-| --- | --- | --- | --- | --- | --- | --- |
-| MT001 | Citrus | cDNA directly, WGS | direct cDNA sequencing kit (SQK-DCS109), Flongle, double-stranded (ds) cDNA was synthesised using random hexamers | CEVd, (Citrus endogenous pararetrovirus) | sscRNA | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT001_ONT.fastq.gz |
-| MT002 | Prunus | cDNA directly, WGS | direct cDNA sequencing kit (SQK-DCS109), Flongle, double-stranded (ds) cDNA was synthesised using random hexamers | PNRSV | ssRNA(+) tripartite | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT002_ONT.fastq.gz |
-| MT011 | Citrus | cDNA directly, WGS | direct cDNA sequencing kit (SQK-DCS109), Flongle, double-stranded (ds) cDNA was synthesised using random hexamers | CTV, CVd-VI | ssRNA(+), sscRNA| /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT011_ONT.fastq.gz |
+**Sample MT001, MT002, MT010 and MT011** are whole genome samples that were derived using direct cDNA sequencing kit (SQK-DCS109) on whole genome sequences uisng Flongle. Double-stranded (ds) cDNA was synthesised using random hexamers.
+
+| Sample name | Host | Virus | Genome type | Dataset |
+| --- | --- | ---  | --- | --- |
+| MT001 | Citrus | CEVd, (Citrus endogenous pararetrovirus) | sscRNA | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT001_ONT.fastq.gz |
+| MT002 | Prunus | PNRSV | ssRNA(+) tripartite | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT002_ONT.fastq.gz |
+| MT011 | Citrus | CTV, CVd-VI | ssRNA(+), sscRNA| /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT011_ONT.fastq.gz |
 
 For these we recommend performing a direct read homology search using megablast and the NCBI NT database and direct taxonomic read classification using Kraken2 and Kaiju.
 ```

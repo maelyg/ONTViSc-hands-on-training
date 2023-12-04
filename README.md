@@ -233,7 +233,7 @@ This contig shows 99% coverage to OL312763.1.
 <p align="left"><img src="images/blast_results.png" width="750"></p>
 
 
-You can also test teh assembler Flye. You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.
+You can also test the Flye assembler. You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.
 ```
  #!/bin/bash -l
 #PBS -N ontvisc

@@ -12,7 +12,7 @@ Let's compare two Nanoplot outputs. The first one is for a sample on which whole
 wget https://github.com/maelyg/ONTViSc-hands-on-training/blob/main/images/MT001_raw_NanoPlot-report.html
 wget https://github.com/maelyg/ONTViSc-hands-on-training/blob/main/images/ET300_ET300_raw_NanoPlot-report.html
 ```
-https://htmlpreview.github.io/?https://github.com/maelyg/ONTViSc-hands-on-training/blob/main/images/ET300_ET300_raw_NanoPlot-report.html
+https://htmlpreview.github.io/?https://github.com/maelyg/ONTViSc-hands-on-training/blob/main/images/ET300_raw_NanoPlot-report.html
 
 
 

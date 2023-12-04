@@ -5,59 +5,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | MT001 | Citrus | Citrus Troyer × Frost-Lisbon | cDNA directly, WGS | direct cDNA sequencing kit (SQK-DCS109), Flongle, double-stranded (ds) cDNA was synthesised using random hexamers | CEVd, (Citrus endogenous pararetrovirus) | sscRNA | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT001_ONT.fastq.gz |
 | MT002 | Prunus | Prunus persica | cDNA directly, WGS | direct cDNA sequencing kit (SQK-DCS109), Flongle, double-stranded (ds) cDNA was synthesised using random hexamers | PNRSV | ssRNA(+) tripartite | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT002_ONT.fastq.gz |
-| MT011 | Citrus | Citrus medica L. | cDNA directly, WGS | direct cDNA sequencing kit (SQK-DCS109), Flongle, double-stranded (ds) cDNA was synthesised using random hexamers | CTV, CVd-VI | ssRNA(+) tripartite | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT002_ONT.fastq.gz |
-| --- | --- | --- | --- | --- | CVd-VI | --- | --- |
- 
-
- 
-
-MT011
-	
-
-Citrus
-	
-
-Citrus medica L.
-	
-
-cDNA directly
-
-WGS
-	
-
-direct cDNA sequencing kit (SQK-DCS109)
-
-Flongle
-
-double-stranded (ds) cDNA was synthesised using random hexamers
-
- 
-	
-
-CTV
-
-CVd-VI
-	
-
-ssRNA(+)
-
-sscRNA
-	
-
- 
-	
-
- 
-	
-
-/work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT011_ONT.fastq.gz
-
-Copied to:
-
-/work/eresearch_bio/test_datasets/MT011_ONT.fastq.gz
-	
-
- 
+| MT011 | Citrus | Citrus medica L. | cDNA directly, WGS | direct cDNA sequencing kit (SQK-DCS109), Flongle, double-stranded (ds) cDNA was synthesised using random hexamers | CTV, CVd-VI | ssRNA(+), sscRNA| /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT011_ONT.fastq.gz |
 
 ## Example of short amplicon product
 

@@ -1,4 +1,28 @@
 # ONTViSc-hands-on-training
+## What is Oxford Nanopore data?
+Using long nanopore DNA/RNA sequencing reads researchers can:
+- Resolve complex structural variants and repetitive regions
+- Simplify de novo genome assembly and improve existing reference genomes
+- Study linkage and phasing
+- Enhance metagenomic identification of closely related species and distinguish plasmid from genome
+- Sequence entire microbes in single reads – in real-time
+- Explore epigenetic modifications using direct, long-read DNA sequencing
+
+## How does it work?
+Nanopore sequencing is a unique, scalable technology that enables direct, real-time analysis of long DNA or RNA fragments. It works by monitoring changes to an electrical current as nucleic acids are passed through a protein nanopore. The resulting signal is decoded to provide the specific DNA or RNA sequence.  
+A range of nanopore sequencing devices are available, providing high-yields and scalable sample throughput to suit all requirements — from portable analysis using Flongle and MinION, through to flexible, high-throughput benchtop sequencing on GridION and PromethION. MinION Starter Packs are available from just $1,000 providing low-cost access to the benefits of long-read, real-time DNA sequencing.  
+Unlike traditional DNA sequencing platforms, which deliver data in bulk at the end of a sequencing run, nanopore DNA sequencing data is streamed in real time — providing immediate access to results. Advantages of real-time data streaming include rapid access to time critical information (e.g. pathogen identification), the generation of early sample insights, and the facility to stop sequencing once a result has been achieved — enabling washing and reuse of the flow cell
+
+Nanopore technology can be applied across all DNA sequencing techniques.
+- Whole genome sequencing: Accurately characterise all genomic variants and generate complete genome assemblies.
+- Targeted sequencing: Sequence long targeted regions and expand on the limitations of traditional targeted sequencing approaches. Use amplification-free strategies to preserve base modifications.
+- Metagenomic sequencing: More accurately identify microbes and their abundance with real-time results.
+- Epigenetics: dentify base modifications alongside DNA sequence using direct sequencing approaches.
+
+## Running the ONTViSc pipeline
+
+
+
 ## Quality control (QC) of Oxford Nanopore data
 The initial step of every sequencing project is the quality control step to assess the quality of your sequencing data. For this reason, we recommend you first run the **--qc-only** mode of the pipeline to perform a preliminary check of your data. 
 You will be able to assess how successful your sequencing run was based on certain statistics (e.g. length and quality score distributions of your reads),

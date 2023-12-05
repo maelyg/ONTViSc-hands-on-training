@@ -19,9 +19,74 @@ Nanopore technology can be applied across all DNA sequencing techniques.
 - Metagenomic sequencing: More accurately identify microbes and their abundance with real-time results.
 - Epigenetics: dentify base modifications alongside DNA sequence using direct sequencing approaches.
 
-## Running the ONTViSc pipeline
+## ONTViSc
+eresearchqut/ontvisc is a Nextflow-based bioinformatics pipeline designed to help diagnostics of viruses and viroid pathogens for biosecurity. It takes fastq.gz files generated from either amplicon or whole-genome sequencing using Oxford Nanopore Technologies as input.  
 
+The pipeline can either: 1) perform a direct search on the sequenced reads, 2) generate clusters, 3) assemble the reads to generate longer contigs or 4) directly map reads to a known reference.  
 
+The reads can optionally be filtered from a plant host before performing downstream analysis.  
+
+The ONTViSc pipeline is written in Nextflow.  
+
+## Requirements  
+1. Install Nextflow [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation)
+    - Download the executable package by copying and pasting either one of the following commands in your terminal window: wget -qO- https://get.nextflow.io | bash
+     This will create the nextflow main executable file in the current directory.
+    - Make the binary executable on your system by running chmod +x nextflow. Optionally, move the nextflow file to a directory accessible by your $PATH variable (this is only required to avoid remembering and typing the full path to nextflow each time you need to run it).
+
+2. Install [`Docker`](https://docs.docker.com/get-docker/) or [`Singularity`](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps) to suit your environment.
+
+## Installing the required indexes and references
+Depending on the mode you are interested to run, you will need to install some databases and references.
+
+| Mode | Index | Description |
+| --- | --- | --- |
+| --host_filtering | --host_fasta | path to host fasta file to use for read filtering|
+| --blast_vs_ref | --reference | path to viral reference sequence fasta file to perform homology search on reads (read_classification), clusters (clustering) or contigs (de novo) |
+| --blast_mode localdb | --blastn_db | path to [`viral blast database`](https://zenodo.org/records/10117282) to perform homology search on reads (read_classification), clusters (clustering) or contigs (de novo)|
+| --blast_mode ncbi | --blastn_db | path to NCBI nt database, taxdb.btd and taxdb.bti to perform homology search on reads (read_classification), clusters (clustering) or contigs (de novo)|
+| --read_classification --kraken2 | --krkdb | path to kraken index folder e.g. PlusPFP|
+| --read_classification --kaiju | --kaiju_dbname | path to kaiju_db_*.fmi |
+|                           | --kaiju_nodes | path to nodes.dmp |
+|                           | --kaiju_names | path to names.dmp |
+| --map2ref | --reference | path to viral reference sequence fasta file to perform alignment |
+
+- If you have access to a host genome reference or sequences and want to filter your reads against it/them before running your analysis, specify the `--host_filtering` parameter and provide the path to the host fasta file with `--host_fasta /path/to/host/fasta/file`.
+
+- The homology searches is set by default against the public NCBI NT database in the nextflow.config file (`--blast_mode ncbi`)
+
+- If you want to run homology searches against a viral database instead, you will need to provide this database to run the pipeline (e.g. [`here`](https://zenodo.org/records/10117282), you will need to specify the ``--blast_mode localdb`` parameter and provide the path to the database by specifying ``--blastn_db /path/to/viral/db``. Ensure you use NCBI BLAST+ makeblastdb to create the database. For instance, to set up this database, you would take the following steps:
+```
+unzip VirDB_20230913.fasta.zip
+makeblastdb -in VirDB_20230913.fasta -parse_seqids -dbtype nucl
+```
+
+  Download a local copy of the NCBI NT database, following the detailed steps available at https://www.ncbi.nlm.nih.gov/books/NBK569850/. Create a folder where you will store your NCBI databases. It is good practice to include the date of download. For instance:
+  ```
+  mkdir blastDB/20230930
+  ```
+  You will need to use a current update_blastdb.pl script from the blast+  version used with the pipeline (ie 2.13.0).
+  For example:
+  ```
+  perl update_blastdb.pl --decompress nt
+  perl update_blastdb.pl taxdb
+  tar -xzf taxdb.tar.gz
+  ```
+
+  Make sure the taxdb.btd and the taxdb.bti files are present in the same directory as your blast databases.
+  Specify the path of your local NCBI blast nt directories in the nextflow.config file.
+  For instance:
+  ```
+  params {
+    --blastn_db = '/work/hia_mt18005_db/blastDB/20230930/nt'
+  }
+  ```
+- To run nucleotide taxonomic classification of reads using Kraken2, download the pre-built index relevant to your data and provided by [`Kraken2`](https://benlangmead.github.io/aws-indexes/k2) (for example, PlusPFP can be chosen for searching viruses in plant samples).  
+
+- To run protein taxonomic classification using Kaiju, download the pre-built index relevant to your data. Indexes are listed on the README page of [`Kaiju`](https://github.com/bioinformatics-centre/kaiju) (for example refseq, refseq_nr, refseq_ref, progenomes, viruses, nr, nr_euk or rvdb). After the download is finished, you should have 3 files: kaiju_db_*.fmi, nodes.dmp, and names.dmp, which are all needed to run Kaiju.
+You will have to specify the path to each of these files (using the ``--kaiju_dbname``, the ``--kaiju_nodes`` and the ``--kaiju_names`` parameters respectively.
+
+- If you want to align your reads to a reference genome (--map2ref) or blast against a reference (--blast_vs_ref), you will have to specify its path using `--reference`.
 
 ## Quality control (QC) of Oxford Nanopore data
 The initial step of every sequencing project is the quality control step to assess the quality of your sequencing data. For this reason, we recommend you first run the **--qc-only** mode of the pipeline to perform a preliminary check of your data. 

@@ -28,7 +28,8 @@ The reads can optionally be filtered from a plant host before performing downstr
 
 The ONTViSc pipeline is written in Nextflow.  
 
-## Requirements  
+## Requirements
+1. Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requires Bash 3.2 (or later) and Java 11 (or later, up to 21) to be installed.
 1. Install Nextflow [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation)
     - Download the executable package by copying and pasting either one of the following commands in your terminal window: wget -qO- https://get.nextflow.io | bash
      This will create the nextflow main executable file in the current directory.
@@ -37,7 +38,7 @@ The ONTViSc pipeline is written in Nextflow.
 2. Install [`Docker`](https://docs.docker.com/get-docker/) or [`Singularity`](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps) to suit your environment.
 
 ## Installing the required indexes and references
-Depending on the mode you are interested to run, you will need to install some databases and references.
+Depending on the pipeline analysis mode you are interested to run, you will need to install some databases and references.
 
 | Mode | Index | Description |
 | --- | --- | --- |

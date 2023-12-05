@@ -54,14 +54,7 @@ Depending on the mode you are interested to run, you will need to install some d
 - If you have access to a host genome reference or sequences and want to filter your reads against it/them before running your analysis, specify the `--host_filtering` parameter and provide the path to the host fasta file with `--host_fasta /path/to/host/fasta/file`.
 
 - The homology searches is set by default against the public NCBI NT database in the nextflow.config file (`--blast_mode ncbi`)
-
-- If you want to run homology searches against a viral database instead, you will need to provide this database to run the pipeline (e.g. [`here`](https://zenodo.org/records/10117282), you will need to specify the ``--blast_mode localdb`` parameter and provide the path to the database by specifying ``--blastn_db /path/to/viral/db``. Ensure you use NCBI BLAST+ makeblastdb to create the database. For instance, to set up this database, you would take the following steps:
-```
-unzip VirDB_20230913.fasta.zip
-makeblastdb -in VirDB_20230913.fasta -parse_seqids -dbtype nucl
-```
-
-  Download a local copy of the NCBI NT database, following the detailed steps available at https://www.ncbi.nlm.nih.gov/books/NBK569850/. Create a folder where you will store your NCBI databases. It is good practice to include the date of download. For instance:
+Download a local copy of the NCBI NT database, following the detailed steps available at https://www.ncbi.nlm.nih.gov/books/NBK569850/. Create a folder where you will store your NCBI databases. It is good practice to include the date of download. For instance:
   ```
   mkdir blastDB/20230930
   ```
@@ -81,6 +74,15 @@ makeblastdb -in VirDB_20230913.fasta -parse_seqids -dbtype nucl
     --blastn_db = '/work/hia_mt18005_db/blastDB/20230930/nt'
   }
   ```
+  
+-  If you want to run homology searches against a viral database instead, you will need to download it [`here`](https://zenodo.org/records/10183620) by using the following steps:  
+```
+wget https://zenodo.org/records/10183620/files/VirDB_20230913.tar.gz?download=1
+tar -xf VirDB_20230913.fasta.tar.gz
+```
+Specify the ``--blast_mode localdb`` parameter and provide the path to the database by specifying ``--blastn_db /path/to/viral/db``.
+
+  
 - To run nucleotide taxonomic classification of reads using Kraken2, download the pre-built index relevant to your data and provided by [`Kraken2`](https://benlangmead.github.io/aws-indexes/k2) (for example, PlusPFP can be chosen for searching viruses in plant samples).  
 
 - To run protein taxonomic classification using Kaiju, download the pre-built index relevant to your data. Indexes are listed on the README page of [`Kaiju`](https://github.com/bioinformatics-centre/kaiju) (for example refseq, refseq_nr, refseq_ref, progenomes, viruses, nr, nr_euk or rvdb). After the download is finished, you should have 3 files: kaiju_db_*.fmi, nodes.dmp, and names.dmp, which are all needed to run Kaiju.

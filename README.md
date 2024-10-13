@@ -32,18 +32,25 @@ The reads can optionally be filtered from a plant host before performing downstr
 
 The ONTViSc pipeline is written in Nextflow.  
 
+## Aims of this workshop
+- Learn to install and run ONTViSc with test data on the HPC Lyra
+- Run and review QC
+- Run the 4 different modes
+- If time permits test with datasets from participants
+
 ## Requirements
-If you want to familiarise yourself with Nextflow, please review the material covered in the workshop Introduction to Nextflow [`https://eresearchqut.atlassian.net/wiki/spaces/EG/pages/2261090311/2024-S2+eResearch+-+Session+3+Introduction+to+Nextflow']
+If you want to familiarise yourself with Nextflow, please review the material covered in the workshop [`Introduction to Nextflow`(https://eresearchqut.atlassian.net/wiki/spaces/EG/pages/2261090311/2024-S2+eResearch+-+Session+3+Introduction+to+Nextflow)
+A generic [`user guide`] (https://mantczakaus.github.io/ontvisc_guide) on how to set up and execute OntViSc is also available. It covers how to run Nextflow from tower, which will not be covered in this workshop.
 Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requires Bash 3.2 (or later) and Java 11 (or later, up to 21) to be installed.
 1. Log in to Lyra ```ssh [username]@lyra.qut.edu.au```
 2. Start an interactive session: ```qsub -I -S /bin/bash -l walltime=10:00:00 -l select=1:ncpus=1:mem=4gb```
 3. Load java: ```module load java```
-4. Install Nextflow [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation)
+4. If you haven't done so before, install Nextflow [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation)
     - Download the executable package by copying and pasting either one of the following commands in your terminal window: ```curl -s https://get.nextflow.io | bash```
      This will create the nextflow main executable file in the current directory.
     - Make the binary executable on your system by running chmod +x nextflow. Optionally, move the nextflow file to a directory accessible by your $PATH variable (this is only required to avoid remembering and typing the full path to nextflow each time you need to run it): ```mv nextflow $HOME/bin```
 
-5. Install [`Singularity`](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps).
+5. If you haven't done so before, install [`Singularity`](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps).
 
 ## Installing the required indexes and references
 Depending on the pipeline analysis mode you are interested to run, you will need to install some databases and references.

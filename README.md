@@ -11,7 +11,7 @@ Using long nanopore DNA/RNA sequencing reads researchers can:
 ## How does it work?
 Nanopore sequencing is a unique, scalable technology that enables direct, real-time analysis of long DNA or RNA fragments. It works by monitoring changes to an electrical current as nucleic acids are passed through a protein nanopore. The resulting signal is decoded to provide the specific DNA or RNA sequence.  
 A range of nanopore sequencing devices are available, providing high-yields and scalable sample throughput to suit all requirements — from portable analysis using Flongle and MinION, through to flexible, high-throughput benchtop sequencing on GridION and PromethION. MinION Starter Packs are available from just $1,000 providing low-cost access to the benefits of long-read, real-time DNA sequencing.  
-Unlike traditional DNA sequencing platforms, which deliver data in bulk at the end of a sequencing run, nanopore DNA sequencing data is streamed in real time — providing immediate access to results. Advantages of real-time data streaming include rapid access to time critical information (e.g. pathogen identification), the generation of early sample insights, and the facility to stop sequencing once a result has been achieved — enabling washing and reuse of the flow cell
+Unlike traditional DNA sequencing platforms, which deliver data in bulk at the end of a sequencing run, nanopore DNA sequencing data is streamed in real time — providing immediate access to results. Advantages of real-time data streaming include rapid access to time critical information (e.g. pathogen identification), the generation of early sample insights, and the facility to stop sequencing once a result has been achieved — enabling washing and reuse of the flow cell.
 
 Nanopore technology can be applied across all DNA sequencing techniques.
 - Whole genome sequencing: Accurately characterise all genomic variants and generate complete genome assemblies.
@@ -31,11 +31,11 @@ The ONTViSc pipeline is written in Nextflow.
 ## Requirements
 1. Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requires Bash 3.2 (or later) and Java 11 (or later, up to 21) to be installed.
 1. Install Nextflow [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation)
-    - Download the executable package by copying and pasting either one of the following commands in your terminal window: wget -qO- https://get.nextflow.io | bash
+    - Download the executable package by copying and pasting either one of the following commands in your terminal window: ```wget -qO- https://get.nextflow.io | bash```
      This will create the nextflow main executable file in the current directory.
     - Make the binary executable on your system by running chmod +x nextflow. Optionally, move the nextflow file to a directory accessible by your $PATH variable (this is only required to avoid remembering and typing the full path to nextflow each time you need to run it).
 
-2. Install [`Docker`](https://docs.docker.com/get-docker/) or [`Singularity`](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps) to suit your environment.
+2. Install [`Docker`](https://docs.docker.com/get-docker/) or [`Singularity`](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps) to suit your environment. If you are using Lyra, please use Singularity.
 
 ## Installing the required indexes and references
 Depending on the pipeline analysis mode you are interested to run, you will need to install some databases and references.
@@ -328,7 +328,7 @@ This contig shows 99% coverage to OL312763.1.
 
 You can also test the Flye assembler. You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.
 ```
- #!/bin/bash -l
+#!/bin/bash -l
 #PBS -N ontvisc
 #PBS -l select=1:ncpus=2:mem=8gb
 #PBS -l walltime=12:00:00

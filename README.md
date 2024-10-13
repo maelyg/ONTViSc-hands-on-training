@@ -49,9 +49,29 @@ Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requi
     - Download the executable package by copying and pasting either one of the following commands in your terminal window: ```curl -s https://get.nextflow.io | bash```
      This will create the nextflow main executable file in the current directory.
     - Make the binary executable on your system by running chmod +x nextflow. Optionally, move the nextflow file to a directory accessible by your $PATH variable (this is only required to avoid remembering and typing the full path to nextflow each time you need to run it): ```mv nextflow $HOME/bin```
+PLease note: If you have installed Nextflow before on the HPC then you will have to run: ```nextflow self-update```
+5. Once you have installed Nextflow on Lyra, there are some settings that should be applied to your $HOME/.nextflow/config to take advantage of the HPC environment at QUT.
+To create a suitable config file for use on the QUT HPC, copy and paste the following text into your Linux command line and hit ‘enter’. This will make the necessary changes to your local account so that Nextflow can run correctly:
+6. If you haven't done so before, install [`Singularity`](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps).
+```
+[[ -d $HOME/.nextflow ]] || mkdir -p $HOME/.nextflow
 
-5. If you haven't done so before, install [`Singularity`](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps).
-
+cat <<EOF > $HOME/.nextflow/config
+singularity {
+    cacheDir = '$HOME/.nextflow/NXF_SINGULARITY_CACHEDIR'
+    autoMounts = true
+}
+conda {
+    cacheDir = '$HOME/.nextflow/NXF_CONDA_CACHEDIR'
+}
+process {
+  executor = 'pbspro'
+  scratch = false
+  cleanup = false
+}
+includeConfig '/work/datasets/reference/nextflow/qutgenome.config'
+EOF
+```
 ## Installing the required indexes and references
 Depending on the pipeline analysis mode you are interested to run, you will need to install some databases and references.
 
@@ -129,7 +149,6 @@ Let's compare the Nanoplot statistic outputs from two ONT samples. The first one
 <p align="left"><img src="images/ONT300_summary.png" width="750"></p>
 
 You can see that overall, the data is of a higher quality for the MT001 amplicon sample.
- 
 
 If we now look at the read length versus average read quality plot:  
 **MT001 plot:**  

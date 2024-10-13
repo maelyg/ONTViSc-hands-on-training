@@ -1,8 +1,7 @@
 # ONTViSc-hands-on-training
-**Friday 1st Novemvber 2024
-in person
-QUT Garden Point P block level 8 room 810 **
-
+**Friday 1st November 2024 10-12 am**
+**In person workshop for DAFF staff**
+**QUT Garden Point P block level 8 room 810**
 
 ## What is Oxford Nanopore data?
 Using long nanopore DNA/RNA sequencing reads researchers can:
@@ -34,13 +33,17 @@ The reads can optionally be filtered from a plant host before performing downstr
 The ONTViSc pipeline is written in Nextflow.  
 
 ## Requirements
-1. Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requires Bash 3.2 (or later) and Java 11 (or later, up to 21) to be installed.
-1. Install Nextflow [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation)
+If you want to familiarise yourself with Nextflow, please review the material covered in the workshop Introduction to Nextflow [`https://eresearchqut.atlassian.net/wiki/spaces/EG/pages/2261090311/2024-S2+eResearch+-+Session+3+Introduction+to+Nextflow']
+Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requires Bash 3.2 (or later) and Java 11 (or later, up to 21) to be installed.
+1. Log in to Lyra ```ssh [username]@lyra.qut.edu.au```
+2. Start an interactive session: ```qsub -I -S /bin/bash -l walltime=10:00:00 -l select=1:ncpus=1:mem=4gb```
+3. Load java: ```module load java```
+4. Install Nextflow [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation)
     - Download the executable package by copying and pasting either one of the following commands in your terminal window: ```wget -qO- https://get.nextflow.io | bash```
      This will create the nextflow main executable file in the current directory.
     - Make the binary executable on your system by running chmod +x nextflow. Optionally, move the nextflow file to a directory accessible by your $PATH variable (this is only required to avoid remembering and typing the full path to nextflow each time you need to run it).
 
-2. Install [`Docker`](https://docs.docker.com/get-docker/) or [`Singularity`](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps) to suit your environment. If you are using Lyra, please use Singularity.
+5. Install [`Docker`](https://docs.docker.com/get-docker/) or [`Singularity`](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps) to suit your environment. If you are using Lyra, please use Singularity.
 
 ## Installing the required indexes and references
 Depending on the pipeline analysis mode you are interested to run, you will need to install some databases and references.

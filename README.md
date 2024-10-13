@@ -1,7 +1,13 @@
 # ONTViSc-hands-on-training
-**Friday 1st November 2024 10-12 am**
-**In person workshop for DAFF staff**
-**QUT Garden Point P block level 8 room 810**
+**Friday 1st November 2024 10-12 am**  
+**In person workshop for DAFF staff**  
+**QUT Garden Point P block level 8 room 810**  
+
+## Aims of this workshop
+- Learn to install and run ONTViSc with test data on the HPC Lyra
+- Run and review QC
+- Run the 4 different modes
+- If time permits test with datasets from participants
 
 ## What is Oxford Nanopore data?
 Using long nanopore DNA/RNA sequencing reads researchers can:
@@ -31,12 +37,6 @@ The pipeline can either: 1) perform a direct search on the sequenced reads, 2) g
 The reads can optionally be filtered from a plant host before performing downstream analysis.  
 
 The ONTViSc pipeline is written in Nextflow.  
-
-## Aims of this workshop
-- Learn to install and run ONTViSc with test data on the HPC Lyra
-- Run and review QC
-- Run the 4 different modes
-- If time permits test with datasets from participants
 
 ## Requirements
 If you want to familiarise yourself with Nextflow, please review the material covered in the workshop [`Introduction to Nextflow`(https://eresearchqut.atlassian.net/wiki/spaces/EG/pages/2261090311/2024-S2+eResearch+-+Session+3+Introduction+to+Nextflow)

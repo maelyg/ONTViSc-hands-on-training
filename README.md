@@ -97,7 +97,10 @@ Specify the ``--blast_mode localdb`` parameter and provide the path to the datab
 - To run protein taxonomic classification using Kaiju, download the pre-built index relevant to your data. Indexes are listed on the README page of [`Kaiju`](https://github.com/bioinformatics-centre/kaiju) (for example refseq, refseq_nr, refseq_ref, progenomes, viruses, nr, nr_euk or rvdb). After the download is finished, you should have 3 files: kaiju_db_*.fmi, nodes.dmp, and names.dmp, which are all needed to run Kaiju.
 You will have to specify the path to each of these files (using the ``--kaiju_dbname``, the ``--kaiju_nodes`` and the ``--kaiju_names`` parameters respectively.
 
-**On Lyra, we have a copy of NCBI, Kaiju and Kraken predownloaded.**
+On Lyra, we have a copy of NCBI, Kaiju and Kraken predownloaded under:
+- /scratch/datasets/blast_db/20240730/ (nt)
+- /scratch/datasets/kaiju_databases/ (version kaiju_db_rvdb_2023-05-26)
+- /scratch/datasets/kraken_databases/PlusPFP_10_2023
 
 - If you want to align your reads to a reference genome (--map2ref) or blast against a reference (--blast_vs_ref), you will have to specify its path using `--reference`.
 
@@ -109,6 +112,7 @@ The quality control step will guide you in chosing the right filtering and trimm
 An increasing number of tools is available for sequence data QC and filtering, with different strength and applicaton cases. In this pipeline, we use **Nanoplot**. 
 This tool gives a good overall overview of your data by creating several files in html format which any browser can open as a web-page.
 
+**Exercise 1:**
 Let's compare the Nanoplot statistic outputs from two ONT samples. The first one is MT001, a plant sample on which whole genome sequencing was performed. The second is ET300, an insect sample from which an amplicon of the Dengue virus was amplified and sequenced at very high depth. Pay attention to the mean read length, n50, mean quality and mean quality.
 
 **MT001 statistics:**

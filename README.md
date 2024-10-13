@@ -39,7 +39,9 @@ Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requi
 2. Start an interactive session: ```qsub -I -S /bin/bash -l walltime=10:00:00 -l select=1:ncpus=1:mem=4gb```
 3. Load java: ```module load java```
 4. Install Nextflow [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation)
-    - Download the executable package by copying and pasting either one of the following commands in your terminal window: ```wget -qO- https://get.nextflow.io | bash```
+    - Download the executable package by copying and pasting either one of the following commands in your terminal window:
+      ```curl -s https://get.nextflow.io | bash  
+      mv nextflow $HOME/bin```
      This will create the nextflow main executable file in the current directory.
     - Make the binary executable on your system by running chmod +x nextflow. Optionally, move the nextflow file to a directory accessible by your $PATH variable (this is only required to avoid remembering and typing the full path to nextflow each time you need to run it).
 

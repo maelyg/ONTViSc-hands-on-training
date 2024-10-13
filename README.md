@@ -1,4 +1,9 @@
 # ONTViSc-hands-on-training
+**Friday 1st Novemvber 2024
+in person
+QUT Garden Point P block level 8 room 810 **
+
+
 ## What is Oxford Nanopore data?
 Using long nanopore DNA/RNA sequencing reads researchers can:
 - Resolve complex structural variants and repetitive regions

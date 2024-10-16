@@ -291,6 +291,7 @@ In MT001, most of the reads are short, so we will not perform a quality filterin
 In ONT300, we recover a lot of reads that are 10k in length so we can confidently perform a quality filtering step based on length since the sample was an amplicon and was sequenced at very high depth.  
 
 ## Analysing whole genome sequencing samples
+### Direct read classification
 **Exercise 4:**
 For this exercise we will use **sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) followed by whole genome sequencing using [Flongle](https://nanoporetech.com/products/sequence/flongle). Double-stranded (ds) cDNA was synthesised using random hexamers.
 
@@ -359,7 +360,7 @@ This command will:
 - Perform a direct read homology search using megablast and the NCBI NT database.
 - Perform a direct taxonomic read classification using Kraken2 and Kaiju.
 
-
+###  De novo assembly approach
 After checking the results of the direct read approach, check if some viruses are present in high abundance.
 You will see that we recover high coverage for **MsiMV** in sample MT010. For these cases, it is possible to try a de novo assembly or clustering approach to see if we can reconstruct their full genome.
 To perform a denovo assembly approach on MT010 with the tool Canu, try the following command:

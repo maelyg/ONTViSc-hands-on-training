@@ -343,7 +343,7 @@ nextflow run eresearchqut/ontvisc -resume -profile singularity \
                             --host_fasta /work/training/ontvisc_handson_training/Plant_host_sequences.fasta \
                             --analysis_mode read_classification \
                             --kraken2 \
-                            --krkdb /path/to/kraken2_db \
+                            --krkdb /scratch/datasets/kraken_databases/PlusPFP_10_2023 \
                             --kaiju \
                             --kaiju_dbname /scratch/datasets/kaiju_databases/kaiju_db_rvdb.fmi \
                             --kaiju_nodes /scratch/datasets/kaiju_databases/nodes.dmp \

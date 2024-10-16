@@ -52,7 +52,7 @@ You’ll need PuTTY on your PC to access the HPC.
 You can download PuTTY from here: https://the.earth.li/~sgtatham/putty/latest/w64/putty.exe
 
 Then add the HPC (Lyra) address: lyra.qut.edu.au and then click ‘open’.
-image-20240527-223342.png
+<p align="left"><img src="images/putty_set_up.png" width="750"></p>
 
  
 

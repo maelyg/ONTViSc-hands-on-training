@@ -40,7 +40,7 @@ The ONTViSc pipeline is written in Nextflow.
 
 ## Requirements
 
-To be able to run these exercises, you’ll need:
+To be able to run the exercises today, you’ll need:
 - A HPC account
 - PuTTy installed on your local computer
 - Access your HPC home directory from your PC
@@ -54,8 +54,6 @@ You can download PuTTY from here: https://the.earth.li/~sgtatham/putty/latest/w6
 Then add the HPC (Lyra) address: lyra.qut.edu.au and then click ‘open’.
 <p align="left"><img src="images/putty_set_up.png" width="750"></p>
 
- 
-
 Setup Windows File Explorer to access your HPC home account. Follow the instructions here:
 
 https://qutvirtual4.qut.edu.au/group/staff/research/conducting/facilities/advanced-research-computing-storage/supercomputing/using-hpc-filesystems
@@ -63,6 +61,8 @@ https://qutvirtual4.qut.edu.au/group/staff/research/conducting/facilities/advanc
 If you want to familiarise yourself with Nextflow, please review the material covered in the workshop [Introduction to Nextflow](https://eresearchqut.atlassian.net/wiki/spaces/EG/pages/2261090311/2024-S2+eResearch+-+Session+3+Introduction+to+Nextflow)
 A generic [user guide](https://mantczakaus.github.io/ontvisc_guide) on how to set up and execute OntViSc is also available. It covers how to run Nextflow from tower, which will not be covered in this workshop.
 Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requires Bash 3.2 (or later) and Java 11 (or later, up to 21) to be installed.
+
+## Installing Nextflow
 1. Log in to Lyra ```ssh [username]@lyra.qut.edu.au```
 2. Start an interactive session: ```qsub -I -S /bin/bash -l walltime=10:00:00 -l select=1:ncpus=1:mem=4gb```
 3. Load java: ```module load java```
@@ -74,6 +74,9 @@ PLease note: If you have installed Nextflow before on the HPC then you will have
 5. Once you have installed Nextflow on Lyra, there are some settings that should be applied to your $HOME/.nextflow/config to take advantage of the HPC environment at QUT.
 To create a suitable config file for use on the QUT HPC, copy and paste the following text into your Linux command line and hit ‘enter’. This will make the necessary changes to your local account so that Nextflow can run correctly:
 6. If you haven't done so before, install [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps).
+
+## Set up your nextflow config file
+To create a suitable config file for use on the QUT HPC, copy and paste the following text into your Linux command line and hit ‘enter’. This will make the necessary changes to your local account so that Nextflow can run correctly:
 ```
 [[ -d $HOME/.nextflow ]] || mkdir -p $HOME/.nextflow
 
@@ -93,6 +96,22 @@ process {
 includeConfig '/work/datasets/reference/nextflow/qutgenome.config'
 EOF
 ```
+
+## Install ontvisc for the first time
+```
+nextflow run eresearchqut/ontvisc -profile test,singularity
+```
+The first time the command runs, it will download the pipeline into your assets folder located under ~/.nextflow/assets
+
+The source code can also be downloaded directly from GitHub using the git command:
+```
+git clone https://github.com/eresearchqut/ontvisc.git
+```
+
+### Location of test data: ###
+The test data that we will use today can be found under /work/training/ontvisc_handson_training.
+
+
 ## Installing the required indexes and references
 Depending on the pipeline analysis mode you are interested to run, you will need to install some databases and references.
 
@@ -145,12 +164,13 @@ Specify the ``--blast_mode localdb`` parameter and provide the path to the datab
 - To run protein taxonomic classification using Kaiju, download the pre-built index relevant to your data. Indexes are listed on the README page of [`Kaiju`](https://github.com/bioinformatics-centre/kaiju) (for example refseq, refseq_nr, refseq_ref, progenomes, viruses, nr, nr_euk or rvdb). After the download is finished, you should have 3 files: kaiju_db_*.fmi, nodes.dmp, and names.dmp, which are all needed to run Kaiju.
 You will have to specify the path to each of these files (using the ``--kaiju_dbname``, the ``--kaiju_nodes`` and the ``--kaiju_names`` parameters respectively.
 
+- If you want to align your reads to a reference genome (--map2ref) or blast against a reference (--blast_vs_ref), you will have to specify its path using `--reference`.
+
+### Predownloaded datasets available on Lyra
 On Lyra, we have a copy of NCBI, Kaiju and Kraken predownloaded under:
 - /scratch/datasets/blast_db/20240730/ (nt)
 - /scratch/datasets/kaiju_databases/ (version kaiju_db_rvdb_2023-05-26)
 - /scratch/datasets/kraken_databases/PlusPFP_10_2023
-
-- If you want to align your reads to a reference genome (--map2ref) or blast against a reference (--blast_vs_ref), you will have to specify its path using `--reference`.
 
 ## Quality control (QC) of Oxford Nanopore data
 The initial step of every sequencing project is the quality control step to assess the quality of your sequencing data. For this reason, we recommend you first run the **--qc-only** mode of the pipeline to perform a preliminary check of your data. 
@@ -161,6 +181,30 @@ An increasing number of tools is available for sequence data QC and filtering, w
 This tool gives a good overall overview of your data by creating several files in html format which any browser can open as a web-page.
 
 **Exercise 1:**
+
+Create a folder to test the **qc_only** mode.
+```
+mkdir ontvisc_qc_only
+cd ontvisc_qc_only
+```
+
+Create the following PBS script:
+```
+#PBS -N ontvisc
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=8:00:00
+
+
+cd $PBS_O_WORKDIR
+module load java
+NXF_OPTS='-Xms1g -Xmx4g'
+
+nextflow run ~/code/github/ont_amplicon/main.nf  -profile singularity -resume --qc-only
+
+```
+
+
+**Exercise 2:**
 Let's compare the Nanoplot statistic outputs from two ONT samples. The first one is MT001, a plant sample on which whole genome sequencing was performed. The second is ET300, an insect sample from which an amplicon of the Dengue virus was amplified and sequenced at very high depth. Pay attention to the mean read length, n50, mean quality and mean quality.
 
 **MT001 statistics:**

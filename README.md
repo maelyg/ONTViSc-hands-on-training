@@ -173,6 +173,19 @@ On Lyra, we have a copy of NCBI, Kaiju and Kraken predownloaded under:
 - /scratch/datasets/kaiju_databases/ (version kaiju_db_rvdb_2023-05-26)
 - /scratch/datasets/kraken_databases/PlusPFP_10_2023
 
+### Input files
+Create a comma separated file that will be the input for the workflow. By default the pipeline will look for a file called “index.csv” in the base directory but you can specify any file name using the --samplesheet [filename] in the nextflow run command. This text file requires the following columns (which needs to be included as a header): sampleid,sample_files
+
+**sampleid** will be the sample name that will be given to the files created by the pipeline
+**sample_path** is the full path to the fastq files that the pipeline requires as starting input
+
+This is an example of an **index.csv** file which specifies the name and path of fastq.gz files for 2 samples. Specify the full path length for samples with a single fastq.gz file. If there are multiple fastq.gz files per sample, place them all in a single folder and the path can be specified on one line using an asterisk:
+
+sampleid,sample_files
+MT212,/path_to_fastq_file_folder/*fastq.gz
+MT213,/path_to_fastq_file_folder/*fastq.gz
+
+
 ## Quality control (QC) of Oxford Nanopore data
 The initial step of every sequencing project is the quality control step to assess the quality of your sequencing data. For this reason, we recommend you first run the **--qc-only** mode of the pipeline to perform a preliminary check of your data. 
 You will be able to assess how successful your sequencing run was based on certain statistics (e.g. length and quality score distributions of your reads),
@@ -188,9 +201,15 @@ Create a folder to test the **qc_only** mode.
 mkdir ontvisc_qc_only
 cd ontvisc_qc_only
 ```
-
-Create the following PBS script:
+Create an **index.csv** file for the following sample:
 ```
+sampleid,sample_files
+MT001,//work/training/ontvisc_handson_training/MT001_ONT.fastq.gz
+```
+
+Create a PBS script called **ontvisc_qc_only.pbs** with your favourite text file with the following code:
+```
+#!/bin/bash -l
 #PBS -N ontvisc
 #PBS -l select=1:ncpus=2:mem=8gb
 #PBS -l walltime=8:00:00
@@ -200,7 +219,7 @@ cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
 
-nextflow run ~/code/github/ont_amplicon/main.nf  -profile singularity -resume --qc-only
+nextflow run eresearchqut/ontvisc  -profile singularity -resume --qc_only
 
 ```
 

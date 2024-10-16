@@ -39,6 +39,27 @@ The reads can optionally be filtered from a plant host before performing downstr
 The ONTViSc pipeline is written in Nextflow.  
 
 ## Requirements
+
+To be able to run these exercises, you’ll need:
+- A HPC account
+- PuTTy installed on your local computer
+- Access your HPC home directory from your PC
+
+Instructions for getting a HPC account are here: https://qutvirtual4.qut.edu.au/group/staff/research/conducting/facilities/advanced-research-computing-storage/supercomputing/getting-started-with-hpc
+
+You’ll need PuTTY on your PC to access the HPC.
+
+You can download PuTTY from here: https://the.earth.li/~sgtatham/putty/latest/w64/putty.exe
+
+Then add the HPC (Lyra) address: lyra.qut.edu.au and then click ‘open’.
+image-20240527-223342.png
+
+ 
+
+Setup Windows File Explorer to access your HPC home account. Follow the instructions here:
+
+https://qutvirtual4.qut.edu.au/group/staff/research/conducting/facilities/advanced-research-computing-storage/supercomputing/using-hpc-filesystems
+
 If you want to familiarise yourself with Nextflow, please review the material covered in the workshop [Introduction to Nextflow](https://eresearchqut.atlassian.net/wiki/spaces/EG/pages/2261090311/2024-S2+eResearch+-+Session+3+Introduction+to+Nextflow)
 A generic [user guide](https://mantczakaus.github.io/ontvisc_guide) on how to set up and execute OntViSc is also available. It covers how to run Nextflow from tower, which will not be covered in this workshop.
 Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requires Bash 3.2 (or later) and Java 11 (or later, up to 21) to be installed.

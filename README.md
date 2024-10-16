@@ -172,6 +172,9 @@ On Lyra, we have a copy of NCBI, Kaiju and Kraken predownloaded under:
 - /scratch/datasets/blast_db/20240730/ (nt)
 - /scratch/datasets/kaiju_databases/ (version kaiju_db_rvdb_2023-05-26)
 - /scratch/datasets/kraken_databases/PlusPFP_10_2023
+  
+A copy of plant host sequences wefilter your reads against is available under:
+- /work/training/ontvisc_handson_training/Plant_host_sequences.fasta
 
 ### Input files
 Create a comma separated file that will be the input for the workflow. By default the pipeline will look for a file called “index.csv” in the base directory but you can specify any file name using the --samplesheet [filename] in the nextflow run command. This text file requires the following columns (which needs to be included as a header): sampleid,sample_files
@@ -196,18 +199,20 @@ This tool gives a good overall overview of your data by creating several files i
 
 **Exercise 1:**
 
+The first sample we will analyse is MT001, a plant sample on which whole genome sequencing was performed.
+
 Create a folder to test the **qc_only** mode.
 ```
 mkdir ontvisc_qc_only
 cd ontvisc_qc_only
 ```
-Create an **index.csv** file for the following sample:
+Create an **index.csv** file for the following sample which consists of a single fastq.gz file:
 ```
 sampleid,sample_files
-MT001,//work/training/ontvisc_handson_training/MT001_ONT.fastq.gz
+MT001,/work/training/ontvisc_handson_training/MT001_ONT.fastq.gz
 ```
 
-Create a PBS script called **ontvisc_qc_only.pbs** with your favourite text file with the following code:
+Create a PBS script called **ontvisc_qc_only_single_fastqgz.pbs** with your favourite text file with the following code:
 ```
 #!/bin/bash -l
 #PBS -N ontvisc
@@ -219,13 +224,52 @@ cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
 
-nextflow run eresearchqut/ontvisc  -profile singularity -resume --qc_only
-
+nextflow run eresearchqut/ontvisc  -profile singularity -resume --qc_only --samplesheet index.csv
 ```
 
 
+Send the job to the queue by running:
+```
+qsub ontvisc_qc_only_single_fastqgz.pbs
+```
+
+You can monitor your jobs using:
+```
+qstat -u $user
+```
+
 **Exercise 2:**
-Let's compare the Nanoplot statistic outputs from two ONT samples. The first one is MT001, a plant sample on which whole genome sequencing was performed. The second is ET300, an insect sample from which an amplicon of the Dengue virus was amplified and sequenced at very high depth. Pay attention to the mean read length, n50, mean quality and mean quality.
+
+The second sample we will analyse is ET300, an insect sample from which an amplicon of the Dengue virus was amplified and sequenced at very high depth
+Create an **index_index_multiplefq.csv** file for the following sample which consists of a single fastq.gz file:
+```
+sampleid,sample_files
+MT001,/work/training/ontvisc_handson_training/ET300/*.fastq.gz
+```
+
+Create a PBS script called **ontvisc_qc_multiple_fastqgz.pbs** with your favourite text file with the following code:
+```
+#!/bin/bash -l
+#PBS -N ontvisc
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=8:00:00
+
+
+cd $PBS_O_WORKDIR
+module load java
+NXF_OPTS='-Xms1g -Xmx4g'
+
+nextflow run eresearchqut/ontvisc  -profile singularity -resume --merge --qc_only --samplesheet index_multiplefq.csv
+```
+
+Send the job to the queue by running:
+```
+qsub ontvisc_qc_multiple_fastqgz.pbs
+```
+
+
+**Exercise 3:**
+Let's compare the Nanoplot statistic outputs from two ONT samples. The first one is MT001, a plant sample on which whole genome sequencing was performed. The second is ET300, an insect sample from which an amplicon of the Dengue virus was amplified and sequenced at very high depth. Pay attention to the **mean read length, n50, mean quality and mean quality**.
 
 **MT001 statistics:**
 <p align="left"><img src="images/MT001_summary.png" width="750"></p>
@@ -246,8 +290,9 @@ If we compare the plot profiles, you can see that the data distribution looks ve
 In MT001, most of the reads are short, so we will not perform a quality filtering step as most of the data would otherwise be filtered out.  
 In ONT300, we recover a lot of reads that are 10k in length so we can confidently perform a quality filtering step based on length since the sample was an amplicon and was sequenced at very high depth.  
 
-## Example of whole genome sequencing
-**Sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) followed by whole genome sequencing using [Flongle](https://nanoporetech.com/products/sequence/flongle). Double-stranded (ds) cDNA was synthesised using random hexamers.
+## Analysing whole genome sequencing samples
+**Exercise 4:**
+For this exercise we will use **sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) followed by whole genome sequencing using [Flongle](https://nanoporetech.com/products/sequence/flongle). Double-stranded (ds) cDNA was synthesised using random hexamers.
 
 The samples originate from different plant commodities (citrus, prunus and miscanthus) and contain different virus types:
 
@@ -258,36 +303,65 @@ The samples originate from different plant commodities (citrus, prunus and misca
 | MT010 | Miscanthus | MsiMV | ssRNA(+) | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT010_ONT.fastq.gz |
 | MT011 | Citrus | CTV, CVd-VI | ssRNA(+), sscRNA| /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT011_ONT.fastq.gz |
 
-For these samples, we recommend performing first a direct read homology search using:
+For these samples, we recommend performing first a **direct read homology search** using:
 - megablast and the NCBI NT database
 - direct taxonomic read classification using Kraken2 (nucleotide-based) and Kaiju (protein-based).  
 This will provide a quick overview of whether samples are predicted to be infected with any viruses and/or viroids, and warrant further investigation.
 We also recommend to filter host reads before performing the direct read searches.
-```
-# This command will:
-# Check for the presence of adapters
-# Filter reads against the reference host
-# Perform a direct read homology search using megablast and the NCBI NT database.
-# Perform a direct taxonomic read classification using Kraken2 and Kaiju.
 
+
+Let's create a new folder for this exercise.
+```
+cd
+mkdir ontvisc_read_classification
+cd ontvisc_read_classification
+```
+
+Create an **index.csv** file for the following samples which consists of a single fastq.gz file:
+```
+sampleid,sample_files
+MT001,/work/training/ontvisc_handson_training/MT001_ONT.fastq.gz
+MT002,/work/training/ontvisc_handson_training/MT002_ONT.fastq.gz
+MT011,/work/training/ontvisc_handson_training/MT011_ONT.fastq.gz
+```
+
+Create a PBS script called **ontvisc_read_classification.pbs** with your favourite text file with the following code and submist to the PBS queue:
+```
+#!/bin/bash -l
+#PBS -N ontvisc
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=8:00:00
+
+
+cd $PBS_O_WORKDIR
+module load java
+NXF_OPTS='-Xms1g -Xmx4g'
 nextflow run eresearchqut/ontvisc -resume -profile singularity \
                             --adapter_trimming \
                             --host_filtering \
-                            --host_fasta /path/to/host/fasta/file \
+                            --host_fasta /work/training/ontvisc_handson_training/Plant_host_sequences.fasta \
                             --analysis_mode read_classification \
                             --kraken2 \
                             --krkdb /path/to/kraken2_db \
                             --kaiju \
-                            --kaiju_dbname /path/to/kaiju/kaiju.fmi \
-                            --kaiju_nodes /path/to/kaiju/nodes.dmp \
-                            --kaiju_names /path/to/kaiju/names.dmp \
+                            --kaiju_dbname /scratch/datasets/kaiju_databases/kaiju_db_rvdb.fmi \
+                            --kaiju_nodes /scratch/datasets/kaiju_databases/nodes.dmp \
+                            --kaiju_names /scratch/datasets/kaiju_databases/names.dmp \
                             --megablast --blast_mode ncbi \
                             --blast_threads 8 \
-                            --blastn_db /path/to/ncbi_blast_db/nt
+                            --blastn_db /scratch/datasets/blast_db/20240730/nt
 ```
 
+
+This command will:
+- Check for the presence of adapters
+- Filter reads against the reference host
+- Perform a direct read homology search using megablast and the NCBI NT database.
+- Perform a direct taxonomic read classification using Kraken2 and Kaiju.
+
+
 After checking the results of the direct read approach, check if some viruses are present in high abundance.
-You will see that we recover high coverage for MsiMV in sample MT010. For these cases, it is possible to try a de novo assembly or clustering approach to see if we can reconstruct their full genome.
+You will see that we recover high coverage for **MsiMV** in sample MT010. For these cases, it is possible to try a de novo assembly or clustering approach to see if we can reconstruct their full genome.
 To perform a denovo assembly approach on MT010 with the tool Canu, try the following command:
 ```
 #!/bin/bash -l

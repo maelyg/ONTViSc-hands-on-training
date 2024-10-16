@@ -98,6 +98,7 @@ EOF
 ```
 
 ## Install ontvisc for the first time
+To install ontvisc, run the following command:
 ```
 nextflow run eresearchqut/ontvisc -profile test,singularity
 ```

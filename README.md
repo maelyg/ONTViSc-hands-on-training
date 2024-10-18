@@ -480,6 +480,12 @@ Spend a couple of minutes browsing the different files under each folder.
 
 An html summary is also provided wiht 3 separate tabs for ease of interpretation:
 <p align="left"><img src="images/read_classification2.png" width="1000"></p>
+For all 3 analyses, 2 tables of results are provided. First a filtered table. The filter is as follows:
+-megalabst: Only blast viral matches which show >90% query coverage for NCBI and >95% query coverage for local viral database were considered here.  
+-Kraken: Only viral matches which represented >=0.0001 of the total read fraction are retained.     
+-Kaiju: Only viral matches which represented >=0.05 of the total read fraction are retained. 
+
+A table with all the results is also provided under the filtered table.
 
 You can see that viroids are not detected by Kaiju. And the megablast analysis is the most accurate out of the 3.
 

@@ -467,6 +467,7 @@ This command will:
 - Perform a direct read homology search using megablast and the NCBI NT database.
 - Perform a direct taxonomic read classification using Kraken2 and Kaiju.
 
+Once your job has finished running, you will see the following file structure in your results folder:
 
 
 ###  De novo assembly approach

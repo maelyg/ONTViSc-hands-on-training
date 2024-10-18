@@ -468,6 +468,11 @@ This command will:
 - Perform a direct taxonomic read classification using Kraken2 and Kaiju.
 
 Once your job has finished running, you will see the following file structure in your results folder:
+<p align="left"><img src="images/qc_report.png" width="1000"></p>
+
+If the adapter trimming, the quality filtering and/or the host filtering options have been run, a QC report will be saved both in text and html format (i.e. run_qc_report_YYYYMMDD-HHMMSS.txt and run_qc_report_YYYYMMDD-HHMMSS.html) under the qc_report folder.
+
+<p align="left"><img src="images/qc_report2.png" width="1000"></p>
 
 
 ###  De novo assembly approach

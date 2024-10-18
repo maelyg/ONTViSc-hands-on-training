@@ -297,32 +297,47 @@ Now let's look at the 2 folders that have been created by Nextflow: **work** and
 
 <p align="left"><img src="images/file_structure.png" width="750"></p>
 
+One of the core features of Nextflow is the ability to cache task executions and re-use them in subsequent runs to minimize duplicate work. Resumability is useful both for recovering from errors and for iteratively developing a pipeline.
 When Nextflow runs, it assigns a unique ID to each task. This unique ID is used to create a separate execution directory, within the work directory, where the tasks are executed and the results stored. A task’s unique ID is generated as a 128-bit hash number.
 
 When we resume a workflow, Nextflow uses this unique ID to check if:
-
-    The working directory exists
-
-    It contains a valid command exit status
-
-    It contains the expected output files.
-
+- The working directory exists
+- It contains a valid command exit status
+- It contains the expected output files.
 If these conditions are satisfied, the task execution is skipped and the previously computed outputs are applied.
 
- 
 
 When a task requires recomputation, i.e. the conditions above are not fulfilled, the downstream tasks are automatically invalidated.
-
-Therefore, if you modify some parts of your script, or alter the input data using -resume, Nextflow will only execute the processes that are actually changed.
-
+Therefore, if you modify some parts of your script, or alter the input data using **-resume, Nextflow will only execute the processes that are actually changed.**
 The execution of the processes that are not changed will be skipped and the cached result used instead.
-
 This helps a lot when testing or modifying part of your pipeline without having to re-execute it from scratch.
+By default the pipeline results are cached in the directory **work** where the pipeline is launched.
 
-By default the pipeline results are cached in the directory work where the pipeline is launched.
+Example of work directory
+<p align="left"><img src="images/file_structure2.png" width="750"></p>
 
+Task execution directory
+Within the work directory there are multiple task execution directories. There is one directory for each time a process is executed. These task directories are identified by the process execution hash. For example the task directory fa/cd3e49b63eadd6248aa357083763c1 would be location for the process identified by the hash fa/cd3e49 .
 
-One of the core features of Nextflow is the ability to cache task executions and re-use them in subsequent runs to minimize duplicate work. Resumability is useful both for recovering from errors and for iteratively developing a pipeline.
+The task execution directory contains:
+    .command.sh: The command script.
+    .command.run: The file is a bash script that Nextflow generates to execute the .command.sh script, handling the necessary environment setup and command execution details.
+    .command.out: The complete job standard output.
+    .command.err: The complete job standard error.
+    .command.log: The wrapper execution output.
+    .command.begin: A file created as soon as the job is launched.
+    .exitcode: A file containing the task exit code.
+    Any task input files (symlinks)
+    Any task output files
+
+**Specifying another work directory**
+Depending on your script, this work folder can take a lot of disk space. You can specify another work directory using the command line option -w. Note Using a different work directory will mean that any jobs will need to re-run from the beginning.
+
+**Clean the work directory**
+If you are sure you won’t resume your pipeline execution, you can clean the work folder using the nextflow clean command. It is good practice to do so regularly.
+nextflow clean [run_name|session_id] [options]
+If no run name or session id is provided, it will clean the latest run.
+
 
 **Exercise 2:**
 

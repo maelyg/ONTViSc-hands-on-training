@@ -215,7 +215,7 @@ MT001,/work/training/ontvisc_handson_training/MT001_ONT.fastq.gz
 Create a PBS script called **ontvisc_qc_only_single_fastqgz.pbs** with your favourite text file with the following code:
 ```
 #!/bin/bash -l
-#PBS -N ontvisc
+#PBS -N ontvisc_qc_only
 #PBS -l select=1:ncpus=2:mem=8gb
 #PBS -l walltime=8:00:00
 
@@ -237,6 +237,91 @@ You can monitor your jobs using:
 ```
 qstat -u $user
 ```
+
+Once your PBS jobs have run to completion, you can check the content of the folder using the command ```ls```
+
+You will see 2 folders, along with 2 pbs log files: nfrnaseq_test.e[pbs_job_id] and nfrnaseq_test.o[pbs_job_id].
+
+The ontvisc_qc_only.e* should be empty and the ontvisc_qc_only.o* file will provide a log of the nextflow processes. You can check its content using ```more ontvisc_qc_only.o*``` and if you scroll at the bottom, you can check whether the pipeline ran successfully. You should see something similar to this:
+
+```
+N E X T F L O W   ~  version 24.04.4
+
+Launching `https://github.com/eresearchqut/ontvisc` [exotic_noether] DSL2 - revision: 049bd723a0 [main]
+
+[-        ] FASTCAT                -
+[-        ] QC_PRE_DATA_PROCESSING -
+
+[-        ] FASTCAT                | 0 of 1
+[-        ] QC_PRE_DATA_PROCESSING -
+
+executor >  pbspro (1)
+[fd/5d5ea5] FASTCAT (MT001)        | 0 of 1
+[-        ] QC_PRE_DATA_PROCESSING -
+
+executor >  pbspro (1)
+[fd/5d5ea5] FASTCAT (MT001)        | 0 of 1
+[-        ] QC_PRE_DATA_PROCESSING -
+
+executor >  pbspro (1)
+[fd/5d5ea5] FASTCAT (MT001)        | 1 of 1 ✔
+[-        ] QC_PRE_DATA_PROCESSING | 0 of 1
+
+executor >  pbspro (2)
+[fd/5d5ea5] FASTCAT (MT001)                | 1 of 1 ✔
+[26/68381c] QC_PRE_DATA_PROCESSING (MT001) | 0 of 1
+
+executor >  pbspro (2)
+[fd/5d5ea5] FASTCAT (MT001)                | 1 of 1 ✔
+[26/68381c] QC_PRE_DATA_PROCESSING (MT001) | 0 of 1
+
+executor >  pbspro (2)
+[fd/5d5ea5] FASTCAT (MT001)                | 1 of 1 ✔
+[26/68381c] QC_PRE_DATA_PROCESSING (MT001) | 1 of 1 ✔
+
+executor >  pbspro (2)
+[fd/5d5ea5] FASTCAT (MT001)                | 1 of 1 ✔
+[26/68381c] QC_PRE_DATA_PROCESSING (MT001) | 1 of 1 ✔
+Completed at: 16-Oct-2024 15:23:04
+Duration    : 14m 1s
+CPU hours   : 0.4
+Succeeded   : 2
+
+PBS Job 10539921.pbs
+CPU time  : 00:00:53
+Wall time : 00:14:13
+Mem usage : 2575048kb
+```
+
+Now let's look at the 2 folders that have been created by Nextflow: **work** and **results**.
+<p align="left"><img src="images/file_structure.png" width="750"></p>
+
+When Nextflow runs, it assigns a unique ID to each task. This unique ID is used to create a separate execution directory, within the work directory, where the tasks are executed and the results stored. A task’s unique ID is generated as a 128-bit hash number.
+
+When we resume a workflow, Nextflow uses this unique ID to check if:
+
+    The working directory exists
+
+    It contains a valid command exit status
+
+    It contains the expected output files.
+
+If these conditions are satisfied, the task execution is skipped and the previously computed outputs are applied.
+
+ 
+
+When a task requires recomputation, i.e. the conditions above are not fulfilled, the downstream tasks are automatically invalidated.
+
+Therefore, if you modify some parts of your script, or alter the input data using -resume, Nextflow will only execute the processes that are actually changed.
+
+The execution of the processes that are not changed will be skipped and the cached result used instead.
+
+This helps a lot when testing or modifying part of your pipeline without having to re-execute it from scratch.
+
+By default the pipeline results are cached in the directory work where the pipeline is launched.
+
+
+One of the core features of Nextflow is the ability to cache task executions and re-use them in subsequent runs to minimize duplicate work. Resumability is useful both for recovering from errors and for iteratively developing a pipeline.
 
 **Exercise 2:**
 
@@ -359,6 +444,8 @@ This command will:
 - Filter reads against the reference host
 - Perform a direct read homology search using megablast and the NCBI NT database.
 - Perform a direct taxonomic read classification using Kraken2 and Kaiju.
+
+
 
 ###  De novo assembly approach
 After checking the results of the direct read approach, check if some viruses are present in high abundance.

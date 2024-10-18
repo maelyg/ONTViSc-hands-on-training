@@ -341,7 +341,7 @@ If you are sure you won’t resume your pipeline execution, you can clean the wo
 nextflow clean [run_name|session_id] [options]
 If no run name or session id is provided, it will clean the latest run.
 
-Check the structure of the the **results** folder.
+Now let's check the structure of the the **results** folder.
 <p align="left"><img src="images/file_structure3.png" width="750"></p>
 We will go through the results in Exercise 3.
 

@@ -474,6 +474,11 @@ If the adapter trimming, the quality filtering and/or the host filtering options
 
 <p align="left"><img src="images/qc_report2.png" width="1000"></p>
 
+Now let's have the read classification results. The detailed results for the Kraken, Kaiju and megablast analyses can be found udner separate tabs:
+<p align="left"><img src="images/read_classification.png" width="1000"></p>
+
+An html summary is also provided wiht 3 separate tabs for ease of interpretation:
+<p align="left"><img src="images/read_classification2.png" width="1000"></p>
 
 ###  De novo assembly approach
 After checking the results of the direct read approach, check if some viruses are present in high abundance.

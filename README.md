@@ -294,6 +294,7 @@ Mem usage : 2575048kb
 ```
 
 Now let's look at the 2 folders that have been created by Nextflow: **work** and **results**.
+
 <p align="left"><img src="images/file_structure.png" width="750"></p>
 
 When Nextflow runs, it assigns a unique ID to each task. This unique ID is used to create a separate execution directory, within the work directory, where the tasks are executed and the results stored. A task’s unique ID is generated as a 128-bit hash number.

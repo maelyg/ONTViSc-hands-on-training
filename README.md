@@ -40,7 +40,7 @@ The ONTViSc pipeline is written in Nextflow.
 
 ## Requirements
 
-To be able to run these exercises, you’ll need:
+To be able to run the exercises today, you’ll need:
 - A HPC account
 - PuTTy installed on your local computer
 - Access your HPC home directory from your PC
@@ -52,9 +52,7 @@ You’ll need PuTTY on your PC to access the HPC.
 You can download PuTTY from here: https://the.earth.li/~sgtatham/putty/latest/w64/putty.exe
 
 Then add the HPC (Lyra) address: lyra.qut.edu.au and then click ‘open’.
-image-20240527-223342.png
-
- 
+<p align="left"><img src="images/putty_set_up.png" width="750"></p>
 
 Setup Windows File Explorer to access your HPC home account. Follow the instructions here:
 
@@ -63,6 +61,8 @@ https://qutvirtual4.qut.edu.au/group/staff/research/conducting/facilities/advanc
 If you want to familiarise yourself with Nextflow, please review the material covered in the workshop [Introduction to Nextflow](https://eresearchqut.atlassian.net/wiki/spaces/EG/pages/2261090311/2024-S2+eResearch+-+Session+3+Introduction+to+Nextflow)
 A generic [user guide](https://mantczakaus.github.io/ontvisc_guide) on how to set up and execute OntViSc is also available. It covers how to run Nextflow from tower, which will not be covered in this workshop.
 Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requires Bash 3.2 (or later) and Java 11 (or later, up to 21) to be installed.
+
+## Installing Nextflow
 1. Log in to Lyra ```ssh [username]@lyra.qut.edu.au```
 2. Start an interactive session: ```qsub -I -S /bin/bash -l walltime=10:00:00 -l select=1:ncpus=1:mem=4gb```
 3. Load java: ```module load java```
@@ -74,6 +74,9 @@ PLease note: If you have installed Nextflow before on the HPC then you will have
 5. Once you have installed Nextflow on Lyra, there are some settings that should be applied to your $HOME/.nextflow/config to take advantage of the HPC environment at QUT.
 To create a suitable config file for use on the QUT HPC, copy and paste the following text into your Linux command line and hit ‘enter’. This will make the necessary changes to your local account so that Nextflow can run correctly:
 6. If you haven't done so before, install [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps).
+
+## Set up your nextflow config file
+To create a suitable config file for use on the QUT HPC, copy and paste the following text into your Linux command line and hit ‘enter’. This will make the necessary changes to your local account so that Nextflow can run correctly:
 ```
 [[ -d $HOME/.nextflow ]] || mkdir -p $HOME/.nextflow
 
@@ -93,6 +96,23 @@ process {
 includeConfig '/work/datasets/reference/nextflow/qutgenome.config'
 EOF
 ```
+
+## Install ontvisc for the first time
+To install ontvisc, run the following command:
+```
+nextflow run eresearchqut/ontvisc -profile test,singularity
+```
+The first time the command runs, it will download the pipeline into your assets folder located under ~/.nextflow/assets
+
+The source code can also be downloaded directly from GitHub using the git command:
+```
+git clone https://github.com/eresearchqut/ontvisc.git
+```
+
+### Location of test data: ###
+The test data that we will use today can be found under /work/training/ontvisc_handson_training.
+
+
 ## Installing the required indexes and references
 Depending on the pipeline analysis mode you are interested to run, you will need to install some databases and references.
 
@@ -145,12 +165,29 @@ Specify the ``--blast_mode localdb`` parameter and provide the path to the datab
 - To run protein taxonomic classification using Kaiju, download the pre-built index relevant to your data. Indexes are listed on the README page of [`Kaiju`](https://github.com/bioinformatics-centre/kaiju) (for example refseq, refseq_nr, refseq_ref, progenomes, viruses, nr, nr_euk or rvdb). After the download is finished, you should have 3 files: kaiju_db_*.fmi, nodes.dmp, and names.dmp, which are all needed to run Kaiju.
 You will have to specify the path to each of these files (using the ``--kaiju_dbname``, the ``--kaiju_nodes`` and the ``--kaiju_names`` parameters respectively.
 
+- If you want to align your reads to a reference genome (--map2ref) or blast against a reference (--blast_vs_ref), you will have to specify its path using `--reference`.
+
+### Predownloaded datasets available on Lyra
 On Lyra, we have a copy of NCBI, Kaiju and Kraken predownloaded under:
 - /scratch/datasets/blast_db/20240730/ (nt)
 - /scratch/datasets/kaiju_databases/ (version kaiju_db_rvdb_2023-05-26)
 - /scratch/datasets/kraken_databases/PlusPFP_10_2023
+  
+A copy of plant host sequences wefilter your reads against is available under:
+- /work/training/ontvisc_handson_training/Plant_host_sequences.fasta
 
-- If you want to align your reads to a reference genome (--map2ref) or blast against a reference (--blast_vs_ref), you will have to specify its path using `--reference`.
+### Input files
+Create a comma separated file that will be the input for the workflow. By default the pipeline will look for a file called “index.csv” in the base directory but you can specify any file name using the --samplesheet [filename] in the nextflow run command. This text file requires the following columns (which needs to be included as a header): sampleid,sample_files
+
+**sampleid** will be the sample name that will be given to the files created by the pipeline
+**sample_path** is the full path to the fastq files that the pipeline requires as starting input
+
+This is an example of an **index.csv** file which specifies the name and path of fastq.gz files for 2 samples. Specify the full path length for samples with a single fastq.gz file. If there are multiple fastq.gz files per sample, place them all in a single folder and the path can be specified on one line using an asterisk:
+
+sampleid,sample_files
+MT212,/path_to_fastq_file_folder/*fastq.gz
+MT213,/path_to_fastq_file_folder/*fastq.gz
+
 
 ## Quality control (QC) of Oxford Nanopore data
 The initial step of every sequencing project is the quality control step to assess the quality of your sequencing data. For this reason, we recommend you first run the **--qc-only** mode of the pipeline to perform a preliminary check of your data. 
@@ -161,7 +198,164 @@ An increasing number of tools is available for sequence data QC and filtering, w
 This tool gives a good overall overview of your data by creating several files in html format which any browser can open as a web-page.
 
 **Exercise 1:**
-Let's compare the Nanoplot statistic outputs from two ONT samples. The first one is MT001, a plant sample on which whole genome sequencing was performed. The second is ET300, an insect sample from which an amplicon of the Dengue virus was amplified and sequenced at very high depth. Pay attention to the mean read length, n50, mean quality and mean quality.
+
+The first sample we will analyse is MT001, a plant sample on which whole genome sequencing was performed.
+
+Create a folder to test the **qc_only** mode.
+```
+mkdir ontvisc_qc_only
+cd ontvisc_qc_only
+```
+Create an **index.csv** file for the following sample which consists of a single fastq.gz file:
+```
+sampleid,sample_files
+MT001,/work/training/ontvisc_handson_training/MT001_ONT.fastq.gz
+```
+
+Create a PBS script called **ontvisc_qc_only_single_fastqgz.pbs** with your favourite text file with the following code:
+```
+#!/bin/bash -l
+#PBS -N ontvisc_qc_only
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=8:00:00
+
+
+cd $PBS_O_WORKDIR
+module load java
+NXF_OPTS='-Xms1g -Xmx4g'
+
+nextflow run eresearchqut/ontvisc  -profile singularity -resume --qc_only --samplesheet index.csv
+```
+
+
+Send the job to the queue by running:
+```
+qsub ontvisc_qc_only_single_fastqgz.pbs
+```
+
+You can monitor your jobs using:
+```
+qstat -u $user
+```
+
+Once your PBS jobs have run to completion, you can check the content of the folder using the command ```ls```
+
+You will see 2 folders, along with 2 pbs log files: nfrnaseq_test.e[pbs_job_id] and nfrnaseq_test.o[pbs_job_id].
+
+The ontvisc_qc_only.e* should be empty and the ontvisc_qc_only.o* file will provide a log of the nextflow processes. You can check its content using ```more ontvisc_qc_only.o*``` and if you scroll at the bottom, you can check whether the pipeline ran successfully. You should see something similar to this:
+
+```
+N E X T F L O W   ~  version 24.04.4
+
+Launching `https://github.com/eresearchqut/ontvisc` [exotic_noether] DSL2 - revision: 049bd723a0 [main]
+
+[-        ] FASTCAT                -
+[-        ] QC_PRE_DATA_PROCESSING -
+
+[-        ] FASTCAT                | 0 of 1
+[-        ] QC_PRE_DATA_PROCESSING -
+
+executor >  pbspro (1)
+[fd/5d5ea5] FASTCAT (MT001)        | 0 of 1
+[-        ] QC_PRE_DATA_PROCESSING -
+
+executor >  pbspro (1)
+[fd/5d5ea5] FASTCAT (MT001)        | 0 of 1
+[-        ] QC_PRE_DATA_PROCESSING -
+
+executor >  pbspro (1)
+[fd/5d5ea5] FASTCAT (MT001)        | 1 of 1 ✔
+[-        ] QC_PRE_DATA_PROCESSING | 0 of 1
+
+executor >  pbspro (2)
+[fd/5d5ea5] FASTCAT (MT001)                | 1 of 1 ✔
+[26/68381c] QC_PRE_DATA_PROCESSING (MT001) | 0 of 1
+
+executor >  pbspro (2)
+[fd/5d5ea5] FASTCAT (MT001)                | 1 of 1 ✔
+[26/68381c] QC_PRE_DATA_PROCESSING (MT001) | 0 of 1
+
+executor >  pbspro (2)
+[fd/5d5ea5] FASTCAT (MT001)                | 1 of 1 ✔
+[26/68381c] QC_PRE_DATA_PROCESSING (MT001) | 1 of 1 ✔
+
+executor >  pbspro (2)
+[fd/5d5ea5] FASTCAT (MT001)                | 1 of 1 ✔
+[26/68381c] QC_PRE_DATA_PROCESSING (MT001) | 1 of 1 ✔
+Completed at: 16-Oct-2024 15:23:04
+Duration    : 14m 1s
+CPU hours   : 0.4
+Succeeded   : 2
+
+PBS Job 10539921.pbs
+CPU time  : 00:00:53
+Wall time : 00:14:13
+Mem usage : 2575048kb
+```
+
+Now let's look at the 2 folders that have been created by Nextflow: **work** and **results**.
+
+<p align="left"><img src="images/file_structure.png" width="750"></p>
+
+When Nextflow runs, it assigns a unique ID to each task. This unique ID is used to create a separate execution directory, within the work directory, where the tasks are executed and the results stored. A task’s unique ID is generated as a 128-bit hash number.
+
+When we resume a workflow, Nextflow uses this unique ID to check if:
+
+    The working directory exists
+
+    It contains a valid command exit status
+
+    It contains the expected output files.
+
+If these conditions are satisfied, the task execution is skipped and the previously computed outputs are applied.
+
+ 
+
+When a task requires recomputation, i.e. the conditions above are not fulfilled, the downstream tasks are automatically invalidated.
+
+Therefore, if you modify some parts of your script, or alter the input data using -resume, Nextflow will only execute the processes that are actually changed.
+
+The execution of the processes that are not changed will be skipped and the cached result used instead.
+
+This helps a lot when testing or modifying part of your pipeline without having to re-execute it from scratch.
+
+By default the pipeline results are cached in the directory work where the pipeline is launched.
+
+
+One of the core features of Nextflow is the ability to cache task executions and re-use them in subsequent runs to minimize duplicate work. Resumability is useful both for recovering from errors and for iteratively developing a pipeline.
+
+**Exercise 2:**
+
+The second sample we will analyse is ET300, an insect sample from which an amplicon of the Dengue virus was amplified and sequenced at very high depth
+Create an **index_index_multiplefq.csv** file for the following sample which consists of a single fastq.gz file:
+```
+sampleid,sample_files
+MT001,/work/training/ontvisc_handson_training/ET300/*.fastq.gz
+```
+
+Create a PBS script called **ontvisc_qc_multiple_fastqgz.pbs** with your favourite text file with the following code:
+```
+#!/bin/bash -l
+#PBS -N ontvisc
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=8:00:00
+
+
+cd $PBS_O_WORKDIR
+module load java
+NXF_OPTS='-Xms1g -Xmx4g'
+
+nextflow run eresearchqut/ontvisc  -profile singularity -resume --merge --qc_only --samplesheet index_multiplefq.csv
+```
+
+Send the job to the queue by running:
+```
+qsub ontvisc_qc_multiple_fastqgz.pbs
+```
+
+
+**Exercise 3:**
+Let's compare the Nanoplot statistic outputs from two ONT samples. The first one is MT001, a plant sample on which whole genome sequencing was performed. The second is ET300, an insect sample from which an amplicon of the Dengue virus was amplified and sequenced at very high depth. Pay attention to the **mean read length, n50, mean quality and mean quality**.
 
 **MT001 statistics:**
 <p align="left"><img src="images/MT001_summary.png" width="750"></p>
@@ -182,8 +376,10 @@ If we compare the plot profiles, you can see that the data distribution looks ve
 In MT001, most of the reads are short, so we will not perform a quality filtering step as most of the data would otherwise be filtered out.  
 In ONT300, we recover a lot of reads that are 10k in length so we can confidently perform a quality filtering step based on length since the sample was an amplicon and was sequenced at very high depth.  
 
-## Example of whole genome sequencing
-**Sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) followed by whole genome sequencing using [Flongle](https://nanoporetech.com/products/sequence/flongle). Double-stranded (ds) cDNA was synthesised using random hexamers.
+## Analysing whole genome sequencing samples
+### Direct read classification
+**Exercise 4:**
+For this exercise we will use **sample MT001, MT002, MT010 and MT011** are samples that were derived using direct cDNA sequencing kit (SQK-DCS109) followed by whole genome sequencing using [Flongle](https://nanoporetech.com/products/sequence/flongle). Double-stranded (ds) cDNA was synthesised using random hexamers.
 
 The samples originate from different plant commodities (citrus, prunus and miscanthus) and contain different virus types:
 
@@ -194,36 +390,67 @@ The samples originate from different plant commodities (citrus, prunus and misca
 | MT010 | Miscanthus | MsiMV | ssRNA(+) | /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT010_ONT.fastq.gz |
 | MT011 | Citrus | CTV, CVd-VI | ssRNA(+), sscRNA| /work/hia_mt18005/raw_data/ONT_MinION_NZMPI/MT011_ONT.fastq.gz |
 
-For these samples, we recommend performing first a direct read homology search using:
+For these samples, we recommend performing first a **direct read homology search** using:
 - megablast and the NCBI NT database
 - direct taxonomic read classification using Kraken2 (nucleotide-based) and Kaiju (protein-based).  
 This will provide a quick overview of whether samples are predicted to be infected with any viruses and/or viroids, and warrant further investigation.
 We also recommend to filter host reads before performing the direct read searches.
-```
-# This command will:
-# Check for the presence of adapters
-# Filter reads against the reference host
-# Perform a direct read homology search using megablast and the NCBI NT database.
-# Perform a direct taxonomic read classification using Kraken2 and Kaiju.
 
+
+Let's create a new folder for this exercise.
+```
+cd
+mkdir ontvisc_read_classification
+cd ontvisc_read_classification
+```
+
+Create an **index.csv** file for the following samples which consists of a single fastq.gz file:
+```
+sampleid,sample_files
+MT001,/work/training/ontvisc_handson_training/MT001_ONT.fastq.gz
+MT002,/work/training/ontvisc_handson_training/MT002_ONT.fastq.gz
+MT011,/work/training/ontvisc_handson_training/MT011_ONT.fastq.gz
+```
+
+Create a PBS script called **ontvisc_read_classification.pbs** with your favourite text file with the following code and submist to the PBS queue:
+```
+#!/bin/bash -l
+#PBS -N ontvisc
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=8:00:00
+
+
+cd $PBS_O_WORKDIR
+module load java
+NXF_OPTS='-Xms1g -Xmx4g'
 nextflow run eresearchqut/ontvisc -resume -profile singularity \
                             --adapter_trimming \
                             --host_filtering \
-                            --host_fasta /path/to/host/fasta/file \
+                            --host_fasta /work/training/ontvisc_handson_training/Plant_host_sequences.fasta \
                             --analysis_mode read_classification \
                             --kraken2 \
-                            --krkdb /path/to/kraken2_db \
+                            --krkdb /scratch/datasets/kraken_databases/PlusPFP_10_2023 \
                             --kaiju \
-                            --kaiju_dbname /path/to/kaiju/kaiju.fmi \
-                            --kaiju_nodes /path/to/kaiju/nodes.dmp \
-                            --kaiju_names /path/to/kaiju/names.dmp \
+                            --kaiju_dbname /scratch/datasets/kaiju_databases/kaiju_db_rvdb.fmi \
+                            --kaiju_nodes /scratch/datasets/kaiju_databases/nodes.dmp \
+                            --kaiju_names /scratch/datasets/kaiju_databases/names.dmp \
                             --megablast --blast_mode ncbi \
                             --blast_threads 8 \
-                            --blastn_db /path/to/ncbi_blast_db/nt
+                            --blastn_db /scratch/datasets/blast_db/20240730/nt
 ```
 
+
+This command will:
+- Check for the presence of adapters
+- Filter reads against the reference host
+- Perform a direct read homology search using megablast and the NCBI NT database.
+- Perform a direct taxonomic read classification using Kraken2 and Kaiju.
+
+
+
+###  De novo assembly approach
 After checking the results of the direct read approach, check if some viruses are present in high abundance.
-You will see that we recover high coverage for MsiMV in sample MT010. For these cases, it is possible to try a de novo assembly or clustering approach to see if we can reconstruct their full genome.
+You will see that we recover high coverage for **MsiMV** in sample MT010. For these cases, it is possible to try a de novo assembly or clustering approach to see if we can reconstruct their full genome.
 To perform a denovo assembly approach on MT010 with the tool Canu, try the following command:
 ```
 #!/bin/bash -l

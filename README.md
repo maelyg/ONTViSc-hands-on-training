@@ -430,6 +430,7 @@ Create an **index.csv** file for the following samples which consists of a singl
 sampleid,sample_files
 MT001,/work/training/ontvisc_handson_training/MT001_ONT.fastq.gz
 MT002,/work/training/ontvisc_handson_training/MT002_ONT.fastq.gz
+MT010,/work/training/ontvisc_handson_training/MT002_ONT.fastq.gz
 MT011,/work/training/ontvisc_handson_training/MT011_ONT.fastq.gz
 ```
 
@@ -492,8 +493,24 @@ You can see that viroids are not detected by Kaiju. And the megablast analysis i
 
 ###  De novo assembly approach
 After checking the results of the direct read approach, check if some viruses are present in high abundance.
-You will see that we recover high coverage for **MsiMV** in sample MT010. For these cases, it is possible to try a de novo assembly or clustering approach to see if we can reconstruct their full genome.
-To perform a denovo assembly approach on MT010 with the tool Canu, try the following command:
+You will see that we recover high coverage for **MsiMV** in sample MT010. For these cases, it is possible to try a de novo assembly approach to see if we can reconstruct their full genome.
+
+**Exercise 5:**
+
+To perform a denovo assembly approach on MT010 with the tool [`Canu`](https://github.com/marbl/canu), let's create a new folder:
+```
+cd
+mkdir ontvisc_denovo_assembly
+cd ontvisc_denovo_assembly
+```
+
+Create an **index.csv** file for the following samples which consists of a single fastq.gz file:
+```
+sampleid,sample_files
+MT0010,/work/training/ontvisc_handson_training/MT010_ONT.fastq.gz
+```
+
+Run the following command:
 ```
 #!/bin/bash -l
 #PBS -N ontvisc
@@ -504,13 +521,16 @@ cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
 nextflow run eresearchqut/ontvisc -resume profile singularity \
-                                 --denovo_assembly \
+                                 --analysis_mode denovo_assembly \
                                  --canu \
                                  --canu_genome_size 0.01m \
                                  --canu_options 'useGrid=false maxInputCoverage=2000 minReadLength=200 minOverlapLength=100' \
                                  --blast_threads 8 \
-                                 --blastn_db /path/to/ncbi_blast_db/nt
+                                 --blastn_db /scratch/datasets/blast_db/20240730/nt
 ```
+
+Submit the job using: ```qsub ontvisc_denovo.pbs```
+
 Running this command should enable the recovery of most of the MsiMV genome.
 ```
 >tig00000001 len=9578 reads=523 class=contig suggestRepeat=no suggestBubble=no suggestCircular=no trim=0-9578

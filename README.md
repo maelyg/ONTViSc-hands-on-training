@@ -520,7 +520,7 @@ Run the following command:
 cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
-nextflow run eresearchqut/ontvisc -resume profile singularity \
+nextflow run eresearchqut/ontvisc -resume -profile singularity \
                                  --analysis_mode denovo_assembly \
                                  --canu \
                                  --canu_genome_size 0.01m \

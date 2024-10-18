@@ -320,7 +320,7 @@ Task execution directory
 Within the work directory there are multiple task execution directories. There is one directory for each time a process is executed. These task directories are identified by the process execution hash. For example the task directory fa/cd3e49b63eadd6248aa357083763c1 would be location for the process identified by the hash fa/cd3e49 .
 
 The task execution directory contains:
-    .command.sh: The command script.
+``` .command.sh: The command script.
     .command.run: The file is a bash script that Nextflow generates to execute the .command.sh script, handling the necessary environment setup and command execution details.
     .command.out: The complete job standard output.
     .command.err: The complete job standard error.
@@ -329,6 +329,7 @@ The task execution directory contains:
     .exitcode: A file containing the task exit code.
     Any task input files (symlinks)
     Any task output files
+```
 
 **Specifying another work directory**
 Depending on your script, this work folder can take a lot of disk space. You can specify another work directory using the command line option -w. Note Using a different work directory will mean that any jobs will need to re-run from the beginning.

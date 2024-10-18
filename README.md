@@ -4,7 +4,7 @@
 **QUT Garden Point P block level 8 room 810**  
 
 ## Aims of this workshop
-- Learn to install and run ONTViSc with test data on the HPC Lyra
+- Learn how to install and run ONTViSc with test data on the HPC Lyra
 - Run and review QC
 - Run the 4 different modes
 - If time permits test with datasets from participants

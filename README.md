@@ -476,9 +476,12 @@ If the adapter trimming, the quality filtering and/or the host filtering options
 
 Now let's have the read classification results. The detailed results for the Kraken, Kaiju and megablast analyses can be found under separate tabs:
 <p align="left"><img src="images/read_classification.png" width="1000"></p>
+Spend a couple of minutes browsing the different files under each folder.
 
 An html summary is also provided wiht 3 separate tabs for ease of interpretation:
 <p align="left"><img src="images/read_classification2.png" width="1000"></p>
+
+You can see that viroids are not detected by Kaiju. And the megablast analysis is the most accurate out of the 3.
 
 ###  De novo assembly approach
 After checking the results of the direct read approach, check if some viruses are present in high abundance.

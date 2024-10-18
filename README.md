@@ -317,7 +317,9 @@ Example of work directory
 <p align="left"><img src="images/file_structure2.png" width="750"></p>
 
 Task execution directory
-Within the work directory there are multiple task execution directories. There is one directory for each time a process is executed. These task directories are identified by the process execution hash. For example the task directory fa/cd3e49b63eadd6248aa357083763c1 would be location for the process identified by the hash fa/cd3e49 .
+Within the work directory there are multiple task execution directories. There is one directory for each time a process is executed. These task directories are identified by the process execution hash. For example the task directory 26/68381ceeb75e195f4a967bec8e4e59 would be location for the process identified by the hash 26/68381c.
+
+If you type ```ls -alht work/26/68381ceeb75e195f4a967bec8e4e59```, you will also be able to see all the hidden files.
 
 The task execution directory contains:
 ``` .command.sh: The command script.
@@ -339,6 +341,9 @@ If you are sure you won’t resume your pipeline execution, you can clean the wo
 nextflow clean [run_name|session_id] [options]
 If no run name or session id is provided, it will clean the latest run.
 
+Check the structure of the the **results** folder.
+<p align="left"><img src="images/file_structure3.png" width="750"></p>
+We will go through the results in Exercise 3.
 
 **Exercise 2:**
 

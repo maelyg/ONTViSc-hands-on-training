@@ -73,7 +73,7 @@ Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requi
 PLease note: If you have installed Nextflow before on the HPC then you will have to run: ```nextflow self-update```
 5. Once you have installed Nextflow on Lyra, there are some settings that should be applied to your $HOME/.nextflow/config to take advantage of the HPC environment at QUT.
 To create a suitable config file for use on the QUT HPC, copy and paste the following text into your Linux command line and hit ‘enter’. This will make the necessary changes to your local account so that Nextflow can run correctly:
-6. You will also need [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps) for Nextflwo to run. It is already installed on Lyra. But make sure it is installed on your machine if you run the pipeline locally on your own machine.
+6. You will also need [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps) for Nextflow to run. It is already installed on Lyra. But make sure it is installed on your machine if you run the pipeline locally on your own machine.
 
 ## Set up your nextflow config file
 

@@ -1,5 +1,5 @@
 # ONTViSc-hands-on-training
-**Friday 1st November 2024 10-12 am**  
+**Friday 1st November 2024 11am-3pm**  
 **In person workshop for DAFF staff**  
 **QUT Garden Point P block level 8 room 810**  
 

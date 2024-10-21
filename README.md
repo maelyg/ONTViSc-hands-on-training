@@ -140,10 +140,10 @@ Depending on the pipeline analysis mode you are interested to run, you will need
 | --- | --- | --- |
 | --host_filtering | --host_fasta | path to host fasta file to use for read filtering|
 | --blast_vs_ref | --reference | path to viral reference sequence fasta file to perform homology search on reads (read_classification), clusters (clustering) or contigs (de novo) |
-| --blast_mode localdb | --blastn_db | path to [`viral blast database`](https://zenodo.org/records/10117282) to perform homology search on reads (read_classification), clusters (clustering) or contigs (de novo)|
+| --blast_mode localdb | --blastn_db | path to [`viral blast database`](https://zenodo.org/records/10117282) to perform homology search on reads (--analysis_mode read_classification), clusters (--analysis_mode clustering) or contigs (--analysis_mode denovo_assembly)|
 | --blast_mode ncbi | --blastn_db | path to NCBI nt database, taxdb.btd and taxdb.bti to perform homology search on reads (read_classification), clusters (clustering) or contigs (de novo)|
-| --read_classification --kraken2 | --krkdb | path to kraken index folder e.g. PlusPFP|
-| --read_classification --kaiju | --kaiju_dbname | path to kaiju_db_*.fmi |
+| --analysis_mode read_classification --kraken2 | --krkdb | path to kraken index folder e.g. PlusPFP|
+| --analysis_mode read_classification --kaiju | --kaiju_dbname | path to kaiju_db_*.fmi |
 |                           | --kaiju_nodes | path to nodes.dmp |
 |                           | --kaiju_names | path to names.dmp |
 | --map2ref | --reference | path to viral reference sequence fasta file to perform alignment |
@@ -243,7 +243,7 @@ Create a PBS script called **ontvisc_qc_only_single_fastqgz.pbs** with your favo
 cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
-
+nextflow pull eresearchqut/ontvisc
 nextflow run eresearchqut/ontvisc  -profile singularity -resume --qc_only --samplesheet index.csv
 ```
 
@@ -385,7 +385,7 @@ Create a PBS script called **ontvisc_qc_multiple_fastqgz.pbs** with your favouri
 cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
-
+nextflow pull eresearchqut/ontvisc
 nextflow run eresearchqut/ontvisc  -profile singularity -resume --merge --qc_only --samplesheet index_multiplefq.csv
 ```
 
@@ -465,6 +465,7 @@ Create a PBS script called **ontvisc_read_classification.pbs** with your favouri
 cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
+nextflow pull eresearchqut/ontvisc
 nextflow run eresearchqut/ontvisc -resume -profile singularity \
                             --adapter_trimming \
                             --host_filtering \
@@ -540,6 +541,7 @@ Create the following pbs **ontvisc_denovo_canu.pbs** script:
 cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
+nextflow pull eresearchqut/ontvisc
 nextflow run eresearchqut/ontvisc -resume -profile singularity \
                                  --analysis_mode denovo_assembly \
                                  --canu \
@@ -810,7 +812,7 @@ cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
 nextflow run eresearchqut/ontvisc -resume profile singularity \
-                                  --denovo_assembly \
+                                  --analysis_mode denovo_assembly \
                                   --flye \
                                   --flye_options '--genome-size 0.01m --meta' \
                                   --blast_threads 8 \

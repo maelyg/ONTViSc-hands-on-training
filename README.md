@@ -698,6 +698,18 @@ If you look at the blastn folder, under results/MT010/assembly/blastn
 ```
 
 Let's go through the content of the files generated.
+
+The **SampleName_blast_report.html** enables the user to have a quick look at the blast results for a sample. It displays:
+
+- the total number of matches to viral species
+- the total number of matches to viral species (filtered)
+- the total number of matches to specific viral accession number
+- the top viral match per species based on evalue, followed by qlen
+- the top viral match per species based on query length (qlen), followed by evalue
+- the top viral match per species based on % identity (pident), followed by qlen
+- the top viral match per species based on bitscore, followed by qlen
+
+
 All the top hits derived for each contig are listed under the file **SampleName_assembly_blastn_top_hits.txt**. This file contains the following 26 columns:
 ```
 - qseqid

@@ -520,8 +520,8 @@ You will see that we recover high coverage for **MsiMV** in sample MT010. For th
 To perform a denovo assembly approach on MT010 with the tool [`Canu`](https://github.com/marbl/canu), let's create a new folder:
 ```
 cd
-mkdir ontvisc_denovo_assembly
-cd ontvisc_denovo_assembly
+mkdir ontvisc_denovo_assembly_canu
+cd ontvisc_denovo_assembly_canu
 ```
 
 Create an **index.csv** file for the following samples which consists of a single fastq.gz file:
@@ -530,7 +530,7 @@ sampleid,sample_files
 MT0010,/work/training/ontvisc_handson_training/MT010_ONT.fastq.gz
 ```
 
-Run the following command:
+Create the following pbs **ontvisc_denovo_canu.pbs** script:
 ```
 #!/bin/bash -l
 #PBS -N ontvisc
@@ -549,9 +549,12 @@ nextflow run eresearchqut/ontvisc -resume -profile singularity \
                                  --blastn_db /scratch/datasets/blast_db/20240730/nt
 ```
 
-Submit the job using: ```qsub ontvisc_denovo.pbs```
+Submit the job using: ```qsub ontvisc_denovo_canu.pbs```
 
 Running this command should enable the recovery of most of the MsiMV genome.
+
+**Please note: This analysis takes 1h30 minutes to run so you might want to refer to the precomputed results available under /work/training/ontvisc_handson_training/ontvisc_denovo/canu**
+
 
 Under the folder results/MT010/assembly/canu, two files have been created. 
 - The log for the canu analysis: MT010_canu.log, 
@@ -729,8 +732,7 @@ The **SampleName_blast_report.html** enables the user to have a quick look at th
 - the top viral match per species based on % identity (pident), followed by qlen
 - the top viral match per species based on bitscore, followed by qlen
 
-
-All the top hits derived for each contig are listed under the file **SampleName_assembly_blastn_top_hits.txt**. This file contains the following 26 columns:
+All the top hits derived for each contig are also listed under the file **SampleName_assembly_blastn_top_hits.txt**. This file contains the following 26 columns:
 ```
 - qseqid
 - sgi
@@ -782,7 +784,22 @@ Miscanthus sinensis mosaic virus	OL312763	22	['tig00000001', 'tig00000010', 'tig
 049', 'tig00000051', 'tig00000052', 'tig00000060', 'tig00000062', 'tig00000071']
 ```
 
-You can also test the Flye assembler. You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.
+
+**Exercise 6:**
+You can also test the Flye assembler. 
+You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.
+We will reuse the same index file we gerenated for the canu denovo assembly.
+
+```
+cd
+mkdir ontvisc_denovo_assembly_canu
+cd ontvisc_denovo_assembly_canu
+#copy the index file we generated for sample MT010 in the previous exercise
+cp ../ontvisc_denovo/index.csv .
+
+```
+
+Create the following pbs **ontvisc_denovo_flye.pbs** script:
 ```
 #!/bin/bash -l
 #PBS -N ontvisc
@@ -797,9 +814,14 @@ nextflow run eresearchqut/ontvisc -resume profile singularity \
                                   --flye \
                                   --flye_options '--genome-size 0.01m --meta' \
                                   --blast_threads 8 \
-                                  --blastn_db /path/to/ncbi_blast_db/nt
+                                  --blastn_db /scratch/datasets/blast_db/20240730/nt
                                                  
 ```
+
+```
+qsub ontvisc_denovo_flye.pbs
+```
+
 You can now compare the contigs obtained with Flye and Canu.
 
 ## Example of short amplicon product

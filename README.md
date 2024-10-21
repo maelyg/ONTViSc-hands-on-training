@@ -475,7 +475,7 @@ If the adapter trimming, the quality filtering and/or the host filtering options
 
 <p align="left"><img src="images/qc_report2.png" width="1000"></p>
 
-Now let's have the read classification results. The detailed results for the Kraken, Kaiju and megablast analyses can be found under separate tabs:
+Now let's have a look the read classification results. The detailed results for the Kraken, Kaiju and megablast analyses can be found under separate tabs:
 <p align="left"><img src="images/read_classification.png" width="1000"></p>
 Spend a couple of minutes browsing the different files under each folder.
 

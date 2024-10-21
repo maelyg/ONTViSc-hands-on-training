@@ -1,10 +1,10 @@
 # ONTViSc-hands-on-training
-**Friday 1st November 2024 10-12 am**  
+**Friday 1st November 2024 11am-3pm**  
 **In person workshop for DAFF staff**  
 **QUT Garden Point P block level 8 room 810**  
 
 ## Aims of this workshop
-- Learn to install and run ONTViSc with test data on the HPC Lyra
+- Learn how to install and run ONTViSc with test data on the HPC Lyra
 - Run and review QC
 - Run the 4 different modes
 - If time permits test with datasets from participants
@@ -73,10 +73,31 @@ Nextflow can be used on any POSIX compatible system (Linux, OS X, etc). It requi
 PLease note: If you have installed Nextflow before on the HPC then you will have to run: ```nextflow self-update```
 5. Once you have installed Nextflow on Lyra, there are some settings that should be applied to your $HOME/.nextflow/config to take advantage of the HPC environment at QUT.
 To create a suitable config file for use on the QUT HPC, copy and paste the following text into your Linux command line and hit ‘enter’. This will make the necessary changes to your local account so that Nextflow can run correctly:
-6. If you haven't done so before, install [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps).
+6. You will also need [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps) for Nextflow to run. It is already installed on Lyra. But make sure it is installed on your machine if you run the pipeline locally on your own machine.
 
 ## Set up your nextflow config file
-To create a suitable config file for use on the QUT HPC, copy and paste the following text into your Linux command line and hit ‘enter’. This will make the necessary changes to your local account so that Nextflow can run correctly:
+
+A key Nextflow feature is the ability to decouple the workflow implementation, which describes the flow of data and operations to perform on that data, from the configuration settings required by the underlying execution platform. 
+
+This enables the workflow to be portable, allowing it to run on different computational platforms such as an institutional HPC or cloud infrastructure, without needing to modify the workflow implementation.
+
+For instance, a user can configure Nextflow so it runs the pipelines locally (i.e. on the computer where Nextflow is launched), which can be useful for developing and testing a pipeline script on your computer. This is the default setting in Nextflow. **This is also how you will running ONtViSc if you using a local machine.**
+
+```
+process {
+  executor = 'local'
+}
+```
+You can also configure Nextflow to run on a cluster such as a PBS Pro resource manage, which is the setting we will use on the HPC:
+```
+process {
+  executor = 'pbspro'
+}
+```
+
+The base configuration that is applied to every Nextflow workflow you run is located in $HOME/.nextflow/config.
+
+To take advantage of the HPC environment at QUT, once you have installed Nextflow on Lyra, we will use the **pbspro** executor. To create a suitable config file for use on the QUT HPC, copy and paste the following text into your Linux command line and hit ‘enter’. This will make the necessary changes to your local account so that Nextflow can run correctly:
 ```
 [[ -d $HOME/.nextflow ]] || mkdir -p $HOME/.nextflow
 
@@ -93,7 +114,6 @@ process {
   scratch = false
   cleanup = false
 }
-includeConfig '/work/datasets/reference/nextflow/qutgenome.config'
 EOF
 ```
 
@@ -109,6 +129,16 @@ The source code can also be downloaded directly from GitHub using the git comman
 git clone https://github.com/eresearchqut/ontvisc.git
 ```
 
+PLease note: If you see this message when you try to run ontvisc:
+```
+NOTE: Your local project version looks outdated - a different revision is available in the remote repository [ef9cbeec56]
+```
+you need to update the version of the pipeline you are running. You cna do so using:
+```
+nextflow update eresearchqut/ontvisc
+```
+
+
 ### Location of test data: ###
 The test data that we will use today can be found under /work/training/ontvisc_handson_training.
 
@@ -120,10 +150,10 @@ Depending on the pipeline analysis mode you are interested to run, you will need
 | --- | --- | --- |
 | --host_filtering | --host_fasta | path to host fasta file to use for read filtering|
 | --blast_vs_ref | --reference | path to viral reference sequence fasta file to perform homology search on reads (read_classification), clusters (clustering) or contigs (de novo) |
-| --blast_mode localdb | --blastn_db | path to [`viral blast database`](https://zenodo.org/records/10117282) to perform homology search on reads (read_classification), clusters (clustering) or contigs (de novo)|
+| --blast_mode localdb | --blastn_db | path to [`viral blast database`](https://zenodo.org/records/10117282) to perform homology search on reads (--analysis_mode read_classification), clusters (--analysis_mode clustering) or contigs (--analysis_mode denovo_assembly)|
 | --blast_mode ncbi | --blastn_db | path to NCBI nt database, taxdb.btd and taxdb.bti to perform homology search on reads (read_classification), clusters (clustering) or contigs (de novo)|
-| --read_classification --kraken2 | --krkdb | path to kraken index folder e.g. PlusPFP|
-| --read_classification --kaiju | --kaiju_dbname | path to kaiju_db_*.fmi |
+| --analysis_mode read_classification --kraken2 | --krkdb | path to kraken index folder e.g. PlusPFP|
+| --analysis_mode read_classification --kaiju | --kaiju_dbname | path to kaiju_db_*.fmi |
 |                           | --kaiju_nodes | path to nodes.dmp |
 |                           | --kaiju_names | path to names.dmp |
 | --map2ref | --reference | path to viral reference sequence fasta file to perform alignment |
@@ -223,7 +253,7 @@ Create a PBS script called **ontvisc_qc_only_single_fastqgz.pbs** with your favo
 cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
-
+nextflow pull eresearchqut/ontvisc
 nextflow run eresearchqut/ontvisc  -profile singularity -resume --qc_only --samplesheet index.csv
 ```
 
@@ -365,7 +395,7 @@ Create a PBS script called **ontvisc_qc_multiple_fastqgz.pbs** with your favouri
 cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
-
+nextflow pull eresearchqut/ontvisc
 nextflow run eresearchqut/ontvisc  -profile singularity -resume --merge --qc_only --samplesheet index_multiplefq.csv
 ```
 
@@ -430,6 +460,7 @@ Create an **index.csv** file for the following samples which consists of a singl
 sampleid,sample_files
 MT001,/work/training/ontvisc_handson_training/MT001_ONT.fastq.gz
 MT002,/work/training/ontvisc_handson_training/MT002_ONT.fastq.gz
+MT010,/work/training/ontvisc_handson_training/MT010_ONT.fastq.gz
 MT011,/work/training/ontvisc_handson_training/MT011_ONT.fastq.gz
 ```
 
@@ -444,6 +475,7 @@ Create a PBS script called **ontvisc_read_classification.pbs** with your favouri
 cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
+nextflow pull eresearchqut/ontvisc
 nextflow run eresearchqut/ontvisc -resume -profile singularity \
                             --adapter_trimming \
                             --host_filtering \
@@ -464,7 +496,7 @@ nextflow run eresearchqut/ontvisc -resume -profile singularity \
 This command will:
 - Check for the presence of adapters
 - Filter reads against the reference host
-- Perform a direct read homology search using megablast and the NCBI NT database.
+- Perform a direct read homology search using megablast and the NCBI NT database. The blast search will be split into several PBS jobs, containing 5000 reads each, that will run in parallel. This significantly speeds up the analysis for samples which have been sequenced at high deoth.
 - Perform a direct taxonomic read classification using Kraken2 and Kaiju.
 
 Once your job has finished running, you will see the following file structure in your results folder:
@@ -474,11 +506,42 @@ If the adapter trimming, the quality filtering and/or the host filtering options
 
 <p align="left"><img src="images/qc_report2.png" width="1000"></p>
 
+Now let's have a look the read classification results. The detailed results for the Kraken, Kaiju and megablast analyses can be found under separate tabs:
+<p align="left"><img src="images/read_classification.png" width="1000"></p>
+Spend a couple of minutes browsing the different files under each folder.
+
+An html summary is also provided with 3 separate tabs for ease of interpretation:
+<p align="left"><img src="images/read_classification2.png" width="1000"></p>
+For all 3 analyses, 2 tables of results are provided. First a filtered table. The filters applied are as follows:
+
+- Megablast: Only blast viral matches which show >90% query coverage for NCBI and >95% query coverage for local viral database were considered here.  
+- Kraken: Only viral matches which represented >=0.0001 of the total read fraction are retained.     
+- Kaiju: Only viral matches which represented >=0.05 of the total read fraction are retained. 
+
+A table with all the results is also provided under the filtered table.
+
+You can see that viroids are not detected by Kaiju. And the megablast analysis is the most accurate out of the 3.
 
 ###  De novo assembly approach
 After checking the results of the direct read approach, check if some viruses are present in high abundance.
-You will see that we recover high coverage for **MsiMV** in sample MT010. For these cases, it is possible to try a de novo assembly or clustering approach to see if we can reconstruct their full genome.
-To perform a denovo assembly approach on MT010 with the tool Canu, try the following command:
+You will see that we recover high coverage for **MsiMV** in sample MT010. For these cases, it is possible to try a de novo assembly approach to see if we can reconstruct their full genome.
+
+**Exercise 5:**
+
+To perform a denovo assembly approach on MT010 with the tool [`Canu`](https://github.com/marbl/canu), let's create a new folder:
+```
+cd
+mkdir ontvisc_denovo_assembly_canu
+cd ontvisc_denovo_assembly_canu
+```
+
+Create an **index.csv** file for the following samples which consists of a single fastq.gz file:
+```
+sampleid,sample_files
+MT0010,/work/training/ontvisc_handson_training/MT010_ONT.fastq.gz
+```
+
+Create the following pbs **ontvisc_denovo_canu.pbs** script:
 ```
 #!/bin/bash -l
 #PBS -N ontvisc
@@ -488,15 +551,27 @@ To perform a denovo assembly approach on MT010 with the tool Canu, try the follo
 cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
-nextflow run eresearchqut/ontvisc -resume profile singularity \
-                                 --denovo_assembly \
+nextflow pull eresearchqut/ontvisc
+nextflow run eresearchqut/ontvisc -resume -profile singularity \
+                                 --analysis_mode denovo_assembly \
                                  --canu \
                                  --canu_genome_size 0.01m \
                                  --canu_options 'useGrid=false maxInputCoverage=2000 minReadLength=200 minOverlapLength=100' \
                                  --blast_threads 8 \
-                                 --blastn_db /path/to/ncbi_blast_db/nt
+                                 --blastn_db /scratch/datasets/blast_db/20240730/nt
 ```
+
+Submit the job using: ```qsub ontvisc_denovo_canu.pbs```
+
 Running this command should enable the recovery of most of the MsiMV genome.
+
+**Please note: This analysis takes 1h30 minutes to run so you might want to refer to the precomputed results available under /work/training/ontvisc_handson_training/ontvisc_denovo/canu**
+
+
+Under the folder results/MT010/assembly/canu, two files have been created. 
+- The log for the canu analysis: MT010_canu.log, 
+- and a fasta file with the canu assembly: MT010_canu_assembly.fasta. The top contig should be matching to the virus of interest.
+
 ```
 >tig00000001 len=9578 reads=523 class=contig suggestRepeat=no suggestBubble=no suggestCircular=no trim=0-9578
 AATAAACTCGCAACCTTCGTGATAAAATCACTCCAGAGGCCGTCCGTCTAGTGGCTCGAAGCTAGTAAAA
@@ -637,11 +712,106 @@ ATTGTCCAAGTCTGGCCTCCATTTGTAGGAAACAGTGGTCCACGCTCCTGCCATTACGTCTCCAAAGCTT
 CGCTTAGGTTTACAGAGAGTTCTTTCAAGGCACCTTGCGCTTGAACCGTGAACTTCTATCTGAGTTTGAA
 CGTGATTGTGCTTAATCGTGTTCGGTTGTGTAGCAATACGTAACTGAACGAAGTACAA
 ```
-This contig shows 99% coverage to OL312763.1.
+
+If you blast the top contig you obtain on NCBI, it should show 99% coverage to OL312763.1.  
+
 <p align="left"><img src="images/blast_results.png" width="750"></p>
 
+Please note that you might not get the exact same contig. Because Canu downsamples reads before performing the assembly, it might not retrieve the exact same reads each time before performing the assembly, even if you specify the same settings, especially for samples with uneven coverage. 
 
-You can also test the Flye assembler. You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.
+If you look at the blastn folder, under results/MT010/assembly/blastn
+```
+├── blastn
+│   ├── MT010_assembly_blastn_top_hits.txt
+│   ├── MT010_assembly_blastn_top_viral_hits.txt
+│   ├── MT010_assembly_blastn_top_viral_hits_filtered.txt
+│   ├── MT010_assembly_blastn_top_viral_spp_hits.txt
+│   ├── MT010_assembly_queryid_list_with_viral_match.txt
+│   ├── MT010_assembly_viral_spp_abundance_filtered.txt
+│   ├── MT010_assembly_viral_spp_abundance.txt
+│   └── MT010_blast_report.html
+```
+
+Let's go through the content of the files generated.
+
+The **SampleName_blast_report.html** enables the user to have a quick look at the blast results for a sample. It displays:
+
+- the total number of matches to viral species
+- the total number of matches to viral species (filtered)
+- the total number of matches to specific viral accession number
+- the top viral match per species based on evalue, followed by qlen
+- the top viral match per species based on query length (qlen), followed by evalue
+- the top viral match per species based on % identity (pident), followed by qlen
+- the top viral match per species based on bitscore, followed by qlen
+
+All the top hits derived for each contig are also listed under the file **SampleName_assembly_blastn_top_hits.txt**. This file contains the following 26 columns:
+```
+- qseqid
+- sgi
+- sacc
+- length
+- pident
+- mismatch
+- gapopen
+- qstart
+- qend
+- qlen
+- sstart
+- send
+- slen
+- sstrand
+- evalue
+- bitscore
+- qcovhsp
+- stitle
+- staxids
+- qseq
+- sseq
+- sseqid
+- qcovs
+- qframe
+- sframe
+- species
+```
+
+
+Contigs matching to a virus or viroid as the top blast hit will be listed under the **SampleName_read_classification_blastn_top_viral_hits.txt** file.
+For blast homology search against NCBI, if a contig sequence matches at least 90% of its length to a virus or viroid as the top blast hit, they will be listed under the **SampleName_assembly_blastn_top_viral_hits_filtered.txt** file. If the search is against a local viral database, the match has to cover 95% of its length to be retained. 
+
+
+You can see from these outputs that we recover more than one output for MsiMV. In such instance, where multiple contigs are recovered for the same viral species, only the best hit will be listed under **SampleName_assembly_blastn_top_viral_spp_hits.txt**. Selection of the best hit is based on **evalue**, followed by **query length**.
+
+The **SampleName_assembly_viral_spp_abundance.txt** here will list the number of contigs recovered for each viral species.  
+In the example below, 22 contigs were recovered matching to the Miscanthus sinensis mosaic virus:  
+```
+species	Count
+Miscanthus sinensis mosaic virus	22
+```
+
+Finally the **SampleName_assembly_queryid_list_with_viral_match.txt** will list each unique accession IDs detected in the sample, the viral species they correspond to, and the number of contigs matching to it, and their IDs.  
+We can see from the example above, that the 22 contigs matching to miscanthus sinensis mosaic virus correspond to 1 different accession number.  
+```
+species	sacc	count	qseqid
+Miscanthus sinensis mosaic virus	OL312763	22	['tig00000001', 'tig00000010', 'tig00000011', 'tig00000013', 'tig00000019', 'tig00000021', 'tig00000022', 'tig00000024', 'tig00000028', 'tig00000033', 'tig00000038', 'tig00000039', 'tig00000041', 'tig00000042', 'tig00000045', 'tig00000047', 'tig00000
+049', 'tig00000051', 'tig00000052', 'tig00000060', 'tig00000062', 'tig00000071']
+```
+
+
+**Exercise 6:**
+You can also test the Flye assembler. 
+You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.
+We will reuse the same index file we gerenated for the canu denovo assembly.
+
+```
+cd
+mkdir ontvisc_denovo_assembly_canu
+cd ontvisc_denovo_assembly_canu
+#copy the index file we generated for sample MT010 in the previous exercise
+cp ../ontvisc_denovo/index.csv .
+
+```
+
+Create the following pbs **ontvisc_denovo_flye.pbs** script:
 ```
 #!/bin/bash -l
 #PBS -N ontvisc
@@ -652,13 +822,18 @@ cd $PBS_O_WORKDIR
 module load java
 NXF_OPTS='-Xms1g -Xmx4g'
 nextflow run eresearchqut/ontvisc -resume profile singularity \
-                                  --denovo_assembly \
+                                  --analysis_mode denovo_assembly \
                                   --flye \
                                   --flye_options '--genome-size 0.01m --meta' \
                                   --blast_threads 8 \
-                                  --blastn_db /path/to/ncbi_blast_db/nt
+                                  --blastn_db /scratch/datasets/blast_db/20240730/nt
                                                  
 ```
+
+```
+qsub ontvisc_denovo_flye.pbs
+```
+
 You can now compare the contigs obtained with Flye and Canu.
 
 ## Example of short amplicon product

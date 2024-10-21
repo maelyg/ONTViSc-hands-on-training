@@ -465,7 +465,7 @@ nextflow run eresearchqut/ontvisc -resume -profile singularity \
 This command will:
 - Check for the presence of adapters
 - Filter reads against the reference host
-- Perform a direct read homology search using megablast and the NCBI NT database. The blast search will be split into several PBS jobs, containing 10,000 reads each, that will run in parallel. This significantly speeds up the analysis for samples which have been sequenced at high dpeth.
+- Perform a direct read homology search using megablast and the NCBI NT database. The blast search will be split into several PBS jobs, containing 5000 reads each, that will run in parallel. This significantly speeds up the analysis for samples which have been sequenced at high deoth.
 - Perform a direct taxonomic read classification using Kraken2 and Kaiju.
 
 Once your job has finished running, you will see the following file structure in your results folder:

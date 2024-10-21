@@ -97,10 +97,7 @@ process {
 
 The base configuration that is applied to every Nextflow workflow you run is located in $HOME/.nextflow/config.
 
-Once you have installed Nextflow on Lyra, there are some settings that should be applied to your $HOME/.nextflow/config to take advantage of the HPC environment at QUT.
-
-
-To create a suitable config file for use on the QUT HPC, copy and paste the following text into your Linux command line and hit ‘enter’. This will make the necessary changes to your local account so that Nextflow can run correctly:
+To take advantage of the HPC environment at QUT, once you have installed Nextflow on Lyra, we will use the **pbspro** executor. To create a suitable config file for use on the QUT HPC, copy and paste the following text into your Linux command line and hit ‘enter’. This will make the necessary changes to your local account so that Nextflow can run correctly:
 ```
 [[ -d $HOME/.nextflow ]] || mkdir -p $HOME/.nextflow
 

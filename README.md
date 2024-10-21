@@ -678,6 +678,9 @@ CGCTTAGGTTTACAGAGAGTTCTTTCAAGGCACCTTGCGCTTGAACCGTGAACTTCTATCTGAGTTTGAA
 CGTGATTGTGCTTAATCGTGTTCGGTTGTGTAGCAATACGTAACTGAACGAAGTACAA
 ```
 
+If you blast the top contig you obtain on NCBI, it should show 99% coverage to OL312763.1.  
+
+<p align="left"><img src="images/blast_results.png" width="750"></p>
 
 Please note that you might not get the exact same contig. Because Canu downsamples reads before performing the assembly, it might not retrieve the exact same reads each time before performing the assembly, even if you specify the same settings, especially for samples with uneven coverage. 
 
@@ -725,9 +728,6 @@ All the top hits derived for each contig are listed under the file **SampleName_
 - species
 ```
 
-You can see from this output that the main contig shows 99% coverage to OL312763.1.
-
-<p align="left"><img src="images/blast_results.png" width="750"></p>
 
 Contigs matching to a virus or viroid as the top blast hit will be listed under the **SampleName_read_classification_blastn_top_viral_hits.txt** file.
 For blast homology search against NCBI, if a contig sequence matches at least 90% of its length to a virus or viroid as the top blast hit, they will be listed under the **SampleName_assembly_blastn_top_viral_hits_filtered.txt** file. If the search is against a local viral database, the match has to cover 95% of its length to be retained. 

@@ -479,7 +479,7 @@ Now let's have a look the read classification results. The detailed results for 
 <p align="left"><img src="images/read_classification.png" width="1000"></p>
 Spend a couple of minutes browsing the different files under each folder.
 
-An html summary is also provided wiht 3 separate tabs for ease of interpretation:
+An html summary is also provided with 3 separate tabs for ease of interpretation:
 <p align="left"><img src="images/read_classification2.png" width="1000"></p>
 For all 3 analyses, 2 tables of results are provided. First a filtered table. The filters applied are as follows:
 

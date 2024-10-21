@@ -532,6 +532,11 @@ nextflow run eresearchqut/ontvisc -resume -profile singularity \
 Submit the job using: ```qsub ontvisc_denovo.pbs```
 
 Running this command should enable the recovery of most of the MsiMV genome.
+
+Under the folder results/MT010/assembly/canu, two files have been created. 
+- The log for the canu analysis: MT010_canu.log, 
+- and a fasta file with the canu assembly: MT010_canu_assembly.fasta. The top contig should be matching to the virus of interest.
+
 ```
 >tig00000001 len=9578 reads=523 class=contig suggestRepeat=no suggestBubble=no suggestCircular=no trim=0-9578
 AATAAACTCGCAACCTTCGTGATAAAATCACTCCAGAGGCCGTCCGTCTAGTGGCTCGAAGCTAGTAAAA
@@ -672,8 +677,76 @@ ATTGTCCAAGTCTGGCCTCCATTTGTAGGAAACAGTGGTCCACGCTCCTGCCATTACGTCTCCAAAGCTT
 CGCTTAGGTTTACAGAGAGTTCTTTCAAGGCACCTTGCGCTTGAACCGTGAACTTCTATCTGAGTTTGAA
 CGTGATTGTGCTTAATCGTGTTCGGTTGTGTAGCAATACGTAACTGAACGAAGTACAA
 ```
-This contig shows 99% coverage to OL312763.1.
+
+
+Please note that you might not get the exact same contig. Because Canu downsamples reads before performing the assembly, it might not retrieve the exact same reads each time before performing the assembly, even if you specify the same settings, especially for samples with uneven coverage. 
+
+If you look at the blastn folder, under results/MT010/assembly/blastn
+├── blastn
+│   ├── MT010_assembly_blastn_top_hits.txt
+│   ├── MT010_assembly_blastn_top_viral_hits.txt
+│   ├── MT010_assembly_blastn_top_viral_hits_filtered.txt
+│   ├── MT010_assembly_blastn_top_viral_spp_hits.txt
+│   ├── MT010_assembly_queryid_list_with_viral_match.txt
+│   ├── MT010_assembly_viral_spp_abundance_filtered.txt
+│   ├── MT010_assembly_viral_spp_abundance.txt
+│   └── MT010_blast_report.html
+
+Let's go through the content of the files generated.
+All the top hits derived for each contig are listed under the file **SampleName_assembly_blastn_top_hits.txt**. This file contains the following 26 columns:
+```
+- qseqid
+- sgi
+- sacc
+- length
+- pident
+- mismatch
+- gapopen
+- qstart
+- qend
+- qlen
+- sstart
+- send
+- slen
+- sstrand
+- evalue
+- bitscore
+- qcovhsp
+- stitle
+- staxids
+- qseq
+- sseq
+- sseqid
+- qcovs
+- qframe
+- sframe
+- species
+```
+
+You can see from this output that the main contig shows 99% coverage to OL312763.1.
+
 <p align="left"><img src="images/blast_results.png" width="750"></p>
+
+Contigs matching to a virus or viroid as the top blast hit will be listed under the **SampleName_read_classification_blastn_top_viral_hits.txt** file.
+For blast homology search against NCBI, if a contig sequence matches at least 90% of its length to a virus or viroid as the top blast hit, they will be listed under the **SampleName_assembly_blastn_top_viral_hits_filtered.txt** file. If the search is against a local viral database, the match has to cover 95% of its length to be retained. 
+
+
+You can see from these outputs that we recover more than one output for MsiMV. FOr cases where multiple contigs are recovered for the same viral species, only the best hit will be listed under **SampleName_assembly_blastn_top_viral_spp_hits.txt**. Selection of the best hit is based on **evalue**, followed by **query length**.
+
+The **SampleName_assembly_viral_spp_abundance.txt** here will list the number of contigs recovered for each viral species.  
+In the example below, 22 contigs were recovered matching to the Miscanthus sinensis mosaic virus:  
+```
+species	Count
+Miscanthus sinensis mosaic virus	22
+```
+Finally the **SampleName_assembly_queryid_list_with_viral_match.txt** will list each unique accession IDs detected in the sample, the viral species they correspond to, and the number of contigs matching to it, and their IDs.  
+We can see from the example above, that the 22 contigs matching to miscanthus sinensis mosaic virus correspond to 1 different accession number.  
+```
+species	sacc	count	qseqid
+Miscanthus sinensis mosaic virus	OL312763	22	['tig00000001', 'tig00000010', 'tig00000011', 'tig00000013', 'tig00000019', 'tig00000021', 'tig00000022', 'tig00000024', 'tig00000028', 'tig00000033', 'tig00000038', 'tig00000039', 'tig00000041', 'tig00000042', 'tig00000045', 'tig00000047', 'tig00000
+049', 'tig00000051', 'tig00000052', 'tig00000060', 'tig00000062', 'tig00000071']
+```
+
 
 
 You can also test the Flye assembler. You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.

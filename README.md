@@ -129,6 +129,16 @@ The source code can also be downloaded directly from GitHub using the git comman
 git clone https://github.com/eresearchqut/ontvisc.git
 ```
 
+PLease note: If you see this message when you try to run ontvisc:
+```
+NOTE: Your local project version looks outdated - a different revision is available in the remote repository [ef9cbeec56]
+```
+you need to update the version of the pipeline you are running. You cna do so using:
+```
+nextflow update eresearchqut/ontvisc
+```
+
+
 ### Location of test data: ###
 The test data that we will use today can be found under /work/training/ontvisc_handson_training.
 

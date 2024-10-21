@@ -682,6 +682,7 @@ CGTGATTGTGCTTAATCGTGTTCGGTTGTGTAGCAATACGTAACTGAACGAAGTACAA
 Please note that you might not get the exact same contig. Because Canu downsamples reads before performing the assembly, it might not retrieve the exact same reads each time before performing the assembly, even if you specify the same settings, especially for samples with uneven coverage. 
 
 If you look at the blastn folder, under results/MT010/assembly/blastn
+```
 ├── blastn
 │   ├── MT010_assembly_blastn_top_hits.txt
 │   ├── MT010_assembly_blastn_top_viral_hits.txt
@@ -691,6 +692,7 @@ If you look at the blastn folder, under results/MT010/assembly/blastn
 │   ├── MT010_assembly_viral_spp_abundance_filtered.txt
 │   ├── MT010_assembly_viral_spp_abundance.txt
 │   └── MT010_blast_report.html
+```
 
 Let's go through the content of the files generated.
 All the top hits derived for each contig are listed under the file **SampleName_assembly_blastn_top_hits.txt**. This file contains the following 26 columns:

@@ -733,7 +733,7 @@ Contigs matching to a virus or viroid as the top blast hit will be listed under 
 For blast homology search against NCBI, if a contig sequence matches at least 90% of its length to a virus or viroid as the top blast hit, they will be listed under the **SampleName_assembly_blastn_top_viral_hits_filtered.txt** file. If the search is against a local viral database, the match has to cover 95% of its length to be retained. 
 
 
-You can see from these outputs that we recover more than one output for MsiMV. FOr cases where multiple contigs are recovered for the same viral species, only the best hit will be listed under **SampleName_assembly_blastn_top_viral_spp_hits.txt**. Selection of the best hit is based on **evalue**, followed by **query length**.
+You can see from these outputs that we recover more than one output for MsiMV. In such instance, where multiple contigs are recovered for the same viral species, only the best hit will be listed under **SampleName_assembly_blastn_top_viral_spp_hits.txt**. Selection of the best hit is based on **evalue**, followed by **query length**.
 
 The **SampleName_assembly_viral_spp_abundance.txt** here will list the number of contigs recovered for each viral species.  
 In the example below, 22 contigs were recovered matching to the Miscanthus sinensis mosaic virus:  
@@ -741,6 +741,7 @@ In the example below, 22 contigs were recovered matching to the Miscanthus sinen
 species	Count
 Miscanthus sinensis mosaic virus	22
 ```
+
 Finally the **SampleName_assembly_queryid_list_with_viral_match.txt** will list each unique accession IDs detected in the sample, the viral species they correspond to, and the number of contigs matching to it, and their IDs.  
 We can see from the example above, that the 22 contigs matching to miscanthus sinensis mosaic virus correspond to 1 different accession number.  
 ```
@@ -748,8 +749,6 @@ species	sacc	count	qseqid
 Miscanthus sinensis mosaic virus	OL312763	22	['tig00000001', 'tig00000010', 'tig00000011', 'tig00000013', 'tig00000019', 'tig00000021', 'tig00000022', 'tig00000024', 'tig00000028', 'tig00000033', 'tig00000038', 'tig00000039', 'tig00000041', 'tig00000042', 'tig00000045', 'tig00000047', 'tig00000
 049', 'tig00000051', 'tig00000052', 'tig00000060', 'tig00000062', 'tig00000071']
 ```
-
-
 
 You can also test the Flye assembler. You will want to specify the paramater --meta as this sample contains both host and viral sequences which are present at different concentrations.
 ```

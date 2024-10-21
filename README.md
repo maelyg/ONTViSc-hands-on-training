@@ -430,7 +430,7 @@ Create an **index.csv** file for the following samples which consists of a singl
 sampleid,sample_files
 MT001,/work/training/ontvisc_handson_training/MT001_ONT.fastq.gz
 MT002,/work/training/ontvisc_handson_training/MT002_ONT.fastq.gz
-MT010,/work/training/ontvisc_handson_training/MT002_ONT.fastq.gz
+MT010,/work/training/ontvisc_handson_training/MT010_ONT.fastq.gz
 MT011,/work/training/ontvisc_handson_training/MT011_ONT.fastq.gz
 ```
 

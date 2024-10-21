@@ -76,6 +76,30 @@ To create a suitable config file for use on the QUT HPC, copy and paste the foll
 6. You will also need [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#quick-installation-steps) for Nextflwo to run. It is already installed on Lyra. But make sure it is installed on your machine if you run the pipeline locally on your own machine.
 
 ## Set up your nextflow config file
+
+A key Nextflow feature is the ability to decouple the workflow implementation, which describes the flow of data and operations to perform on that data, from the configuration settings required by the underlying execution platform. 
+
+This enables the workflow to be portable, allowing it to run on different computational platforms such as an institutional HPC or cloud infrastructure, without needing to modify the workflow implementation.
+
+For instance, a user can configure Nextflow so it runs the pipelines locally (i.e. on the computer where Nextflow is launched), which can be useful for developing and testing a pipeline script on your computer. This is the default setting in Nextflow. **This is also how you will running ONtViSc if you using a local machine.**
+
+```
+process {
+  executor = 'local'
+}
+```
+You can also configure Nextflow to run on a cluster such as a PBS Pro resource manage, which is the setting we will use on the HPC:
+```
+process {
+  executor = 'pbspro'
+}
+```
+
+The base configuration that is applied to every Nextflow workflow you run is located in $HOME/.nextflow/config.
+
+Once you have installed Nextflow on Lyra, there are some settings that should be applied to your $HOME/.nextflow/config to take advantage of the HPC environment at QUT.
+
+
 To create a suitable config file for use on the QUT HPC, copy and paste the following text into your Linux command line and hit ‘enter’. This will make the necessary changes to your local account so that Nextflow can run correctly:
 ```
 [[ -d $HOME/.nextflow ]] || mkdir -p $HOME/.nextflow
@@ -93,7 +117,6 @@ process {
   scratch = false
   cleanup = false
 }
-includeConfig '/work/datasets/reference/nextflow/qutgenome.config'
 EOF
 ```
 

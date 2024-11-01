@@ -120,7 +120,7 @@ EOF
 ## Install ontvisc for the first time
 To install ontvisc, run the following command:
 ```
-nextflow run eresearchqut/ontvisc -profile test,singularity
+nextflow run -c conf/test.config  eresearchqut/ontvisc -profile test,singularity
 ```
 The first time the command runs, it will download the pipeline into your assets folder located under ~/.nextflow/assets
 
